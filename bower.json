@@ -1,0 +1,20 @@
+{
+  "name": "node-game",
+  "version": "1.0.0",
+  "authors": [
+    "Alvin Lin <alvin.lin@stuypulse.com>"
+  ],
+  "description": "A sandbox for testing network lag code",
+  "main": "server.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}

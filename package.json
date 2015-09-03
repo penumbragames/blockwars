@@ -1,0 +1,24 @@
+{
+  "name": "node-game",
+  "version": "1.0.0",
+  "description": "A sandbox for testing network lag code.",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:omgimanerd/node-game"
+  },
+  "author": "Alvin Lin (alvin.lin@stuypulse.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omgimanerd/node-game/issues"
+  },
+  "homepage": "https://github.com/omgimanerd/node-game",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "express": "^4.13.3",
+    "swig": "^1.4.2"
+  }
+}
