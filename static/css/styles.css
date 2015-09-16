@@ -1,0 +1,17 @@
+/**
+ * Base stylesheet for website.
+ * Author: Alvin Lin (alvin.lin@stuypulse.com)
+ */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+}
+#canvas {
+  width: 800px;
+  height: 600px;
+  margin: 50px;
+  border: 1px solid black;
+}
