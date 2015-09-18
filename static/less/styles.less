@@ -10,9 +10,16 @@ html, body {
   border: 0;
 }
 
-#canvas {
+#game-container {
+  position: relative;
   width: 800px;
   height: 600px;
-  margin: 50px;
+  margin: auto;
   border: 1px solid black;
+
+  canvas {
+    position: absolute;
+    width: 800px;
+    height: 600px;
+  }
 }

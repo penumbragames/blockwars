@@ -33,6 +33,11 @@ app.get('/', function(request, response) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('new-player', function() {
+    socket.emit('initialize-game', {
+      testing: "test"
+    });
+  });
 });
 
 server.listen(PORT_NUMBER);
