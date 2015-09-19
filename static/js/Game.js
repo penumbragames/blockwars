@@ -32,6 +32,10 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
   this.self = self;
 }
 
+Game.WIDTH = 800;
+
+Game.HEIGHT = 600;
+
 Game.create = function(parentElement, socket, id, position) {
   return new Game(parentElement, socket,
                   new THREE.Scene(),
@@ -41,7 +45,6 @@ Game.create = function(parentElement, socket, id, position) {
 };
 
 Game.prototype.update = function() {
-  console.log(this.scene, this.self.camera);
   this.self.updateFromClient();
   this.renderer.render(this.scene, this.self.camera);
 };
