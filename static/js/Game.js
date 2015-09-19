@@ -18,7 +18,7 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
    */
   this.scene = scene;
 
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var geometry = new THREE.BoxGeometry(1, 0.5, 1);
   var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
   var cube = new THREE.Mesh(geometry, material);
   this.scene.add(cube);

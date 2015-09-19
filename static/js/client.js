@@ -6,6 +6,11 @@ var socket = io();
 var game = null;
 
 $(document).ready(function() {
+
+  $('.start').click(function() {
+    Input.lockPointer();
+  });
+
   socket.emit('new-player');
 
   socket.on('initialize-game', function(data) {

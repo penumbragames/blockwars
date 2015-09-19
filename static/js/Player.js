@@ -7,19 +7,18 @@
 /**
  * @constructor
  */
-function Player(id, camera, position) {
+function Player(id, camera) {
   this.id = id;
   this.camera = camera;
 
-  this.position = position;
-
+  this.position = new THREE.Vector3(0, 0, 0);
   this.virtualMousePosition = [0, 0];
   this.horizontalLookAngle = 0;
   this.verticalLookAngle = 0;
   this.lookPosition = new THREE.Vector3(0, 0, 0);
 }
 
-Player.FOV = 90;
+Player.FOV = 70;
 
 Player.ASPECT_RATIO = 800 / 600;
 

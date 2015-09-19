@@ -11,6 +11,7 @@ function Input() {}
 
 Input.LEFT_CLICK = false;
 Input.RIGHT_CLICK = false;
+Input.MOUSE_LOCKED = false;
 Input.RECENT_MOUSE_MOVEMENTS = [];
 Input.LEFT = false;
 Input.UP = false;
@@ -38,6 +39,7 @@ Input.onMouseMove = function(e) {
       e.movementX || e.mozMovementX || e.webkitMoveMentX || 0,
       e.movementY || e.mozMovementY || e.webkitMovementY || 0
   ]);
+  console.log(Input.MOUSE_LOCKED);
 };
 
 Input.onKeyDown = function(e) {
@@ -98,14 +100,17 @@ Input.applyEventHandlers = function() {
   window.addEventListener('mousemove', Input.onMouseMove);
   window.addEventListener('keyup', Input.onKeyUp);
   window.addEventListener('keydown', Input.onKeyDown);
-  console.log('reached');
 
-  $('.start').click(function() {
-    Input.lockPointer();
-  });
+  function pointerLockCallback() {
+    Input.MOUSE_LOCKED = !!(document.pointerLockElement == element ||
+        document.mozPointerLockElement == element ||
+        document.webkitPointerLockElement == element);
+  }
+  document.addEventListener('pointerlockchange', pointerLockCallback);
+  document.addEventListener('mozpointerlockchange', pointerLockCallback);
+  document.addEventListener('webkitpointerlockchange', pointerLockCallback);
 };
 
 Input.lockPointer = function() {
   document.getElementById('game-container').requestPointerLock();
-  console.log('reached as well');
 };
