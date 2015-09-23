@@ -12,8 +12,10 @@ var http = require('http');
 var morgan = require('morgan');
 var socketIO = require('socket.io');
 var swig = require('swig');
+var Game = require('./server/Game');
 
 var app = express();
+var game = new Game();
 var server = http.Server(app);
 var io = socketIO(server);
 
@@ -33,12 +35,32 @@ app.get('/', function(request, response) {
 });
 
 io.on('connection', function(socket) {
-  socket.on('new-player', function() {
+
+  socket.on('new-player', function(data) {
+    data = {}
+    game.addNewPlayer(data.name, socket);
     socket.emit('initialize-game', {
-      testing: "test"
+      id: socket.id
     });
   });
+
+  socket.on('client-intent', function(data) {
+    game.updatePlayer(socket.id,
+                      data.keyboardState,
+                      data.horizontalLookAngle,
+                      data.verticalLookAngle,
+                      data.timestamp);
+  });
+
+  socket.on('disconnect', function() {
+    game.removePlayer(socket.id);
+  });
 });
+
+setInterval(function() {
+  game.update();
+  game.sendState();
+}, FRAME_RATE);
 
 server.listen(PORT_NUMBER);
 console.log('Starting server on port ' + PORT_NUMBER);

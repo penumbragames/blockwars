@@ -18,37 +18,23 @@ function Player(id, camera) {
   this.lookPosition = new THREE.Vector3(0, 0, 0);
 }
 
-Player.FOV = 70;
+Player.CAMERA_FIELD_OF_VIEW = 70;
 
-Player.ASPECT_RATIO = 800 / 600;
+Player.CAMERA_ASPECT_RATIO = 800 / 600;
 
-Player.NEAR_CLIPPING_PLANE = 0.1;
+Player.CAMERA_NEAR_CLIPPING_PLANE = 0.1;
 
-Player.FAR_CLIPPING_PLANE = 1000;
+Player.CAMERA_FAR_CLIPPING_PLANE = 1000;
 
 Player.create = function(id, position) {
-  var camera = new THREE.PerspectiveCamera(Player.FOV,
-                                           Player.ASPECT_RATIO,
-                                           Player.NEAR_CLIPPING_PLANE,
-                                           Player.FAR_CLIPPING_PLANE);
+  var camera = new THREE.PerspectiveCamera(
+      Player.CAMERA_FIELD_OF_VIEW, Player.CAMERA_ASPECT_RATIO,
+      Player.CAMERA_NEAR_CLIPPING_PLANE, Player.CAMERA_FAR_CLIPPING_PLANE);
   return new Player(id, camera, position);
 };
 
 Player.prototype.updateFromClient = function() {
-  if (Input.LEFT) {
-    this.camera.position.x -= 0.2;
-  }
-  if (Input.RIGHT) {
-    this.camera.position.x += 0.2;
-  }
-  if (Input.UP) {
-    this.camera.position.z -= 0.2;
-  }
-  if (Input.DOWN) {
-    this.camera.position.z += 0.2;
-  }
-  this.position = [this.camera.position.x, this.camera.position.y,
-                   this.camera.position.z];
+  this.position.copy(this.camera.position);
 
   // The virtual mouse position is bounded to the width and height of the
   // canvas and maintained here.
@@ -77,16 +63,20 @@ Player.prototype.updateFromClient = function() {
 
   // The player's look position is updated here by calculating the point on the
   // sphere that the horizontal and vertical look angles describe.
-  this.lookPosition.setX(this.position[0] +
+  this.lookPosition.setX(this.position.x +
       5 * Math.sin(this.verticalLookAngle) *
       Math.cos(this.horizontalLookAngle));
-  this.lookPosition.setY(this.position[1] +
+  this.lookPosition.setY(this.position.y +
       5 * Math.cos(this.verticalLookAngle));
-  this.lookPosition.setZ(this.position[2] +
+  this.lookPosition.setZ(this.position.z +
       5 * Math.sin(this.verticalLookAngle) *
       Math.sin(this.horizontalLookAngle));
   this.camera.lookAt(this.lookPosition);
 };
 
-Player.prototype.updateFromServer = function() {
+Player.prototype.updateFromServer = function(position) {
+  console.log(position);
+  this.camera.position.setX(position[0]);
+  this.camera.position.setY(position[1]);
+  this.camera.position.setZ(position[2]);
 };

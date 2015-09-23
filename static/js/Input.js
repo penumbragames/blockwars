@@ -39,7 +39,6 @@ Input.onMouseMove = function(e) {
       e.movementX || e.mozMovementX || e.webkitMoveMentX || 0,
       e.movementY || e.mozMovementY || e.webkitMovementY || 0
   ]);
-  console.log(Input.MOUSE_LOCKED);
 };
 
 Input.onKeyDown = function(e) {
@@ -102,7 +101,8 @@ Input.applyEventHandlers = function() {
   window.addEventListener('keydown', Input.onKeyDown);
 
   function pointerLockCallback() {
-    Input.MOUSE_LOCKED = !!(document.pointerLockElement == element ||
+    Input.MOUSE_LOCKED = !!(
+        document.pointerLockElement == element ||
         document.mozPointerLockElement == element ||
         document.webkitPointerLockElement == element);
   }

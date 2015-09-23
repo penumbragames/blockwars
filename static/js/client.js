@@ -11,21 +11,27 @@ $(document).ready(function() {
     Input.lockPointer();
   });
 
-  socket.emit('new-player');
+  socket.emit('new-player', {
+    name: 'bob'
+  });
 
   socket.on('initialize-game', function(data) {
-    console.log(data);
     Input.applyEventHandlers();
     // @todo receive player position
     game = Game.create(document.getElementById('game-container'),
                        socket, 'blah', [0, 0]);
     render();
   });
+
+  socket.on('update', function(data) {
+    game.receiveGameState(data.self, data.players);
+  });
 });
 
 function render() {
   requestAnimationFrame(render);
   game.update();
+  game.render();
 }
 
 //var scene = new THREE.Scene();
