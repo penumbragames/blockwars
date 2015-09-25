@@ -37,7 +37,7 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
 require('./inheritable');
 Player.inheritsFrom(Entity);
 
-Player.DEFAULT_MOVESPEED = 0.1;
+Player.DEFAULT_MOVESPEED = 0.05;
 Player.DEFAULT_SHOT_COOLDOWN = 800;
 Player.MAX_HEALTH = 10;
 

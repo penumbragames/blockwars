@@ -18,12 +18,18 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
    */
   this.scene = scene;
 
-  var geometry = new THREE.BoxGeometry(2, 2, 2);
-  var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   var cube = new THREE.Mesh(geometry, material);
-  cube.position.x = 5;
-  cube.position.z = 5;
+  cube.position.x = 9;
+  cube.position.z = 10;
+  var geometry2 = new THREE.BoxGeometry(1, 1, 2);
+  var material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  var cube2 = new THREE.Mesh(geometry2, material2);
+  cube2.position.x = 10;
+  cube2.position.z = 10;
   this.scene.add(cube);
+  this.scene.add(cube2);
 
   this.renderer = renderer;
   this.renderer.setSize(Game.WIDTH, Game.HEIGHT);
