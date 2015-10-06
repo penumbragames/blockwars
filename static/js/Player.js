@@ -1,21 +1,20 @@
 /**
  * This class encapsulates the client player's positional data on the client
- * side.
+ * side and handles the movement of the ThreeJS Camera.
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
 /**
  * @constructor
  */
-function Player(id, camera) {
-  this.id = id;
+function Player(camera, position, lookPosition) {
   this.camera = camera;
 
-  this.position = new THREE.Vector3(0, 0, 0);
+  this.position = position;
   this.virtualMousePosition = [0, 0];
   this.horizontalLookAngle = 0;
   this.verticalLookAngle = 0;
-  this.lookPosition = new THREE.Vector3(0, 0, 0);
+  this.lookPosition = lookPosition;
 }
 
 Player.CAMERA_FIELD_OF_VIEW = 70;
@@ -26,16 +25,21 @@ Player.CAMERA_NEAR_CLIPPING_PLANE = 0.1;
 
 Player.CAMERA_FAR_CLIPPING_PLANE = 1000;
 
-Player.create = function(id, position) {
+Player.create = function(position) {
   var camera = new THREE.PerspectiveCamera(
       Player.CAMERA_FIELD_OF_VIEW, Player.CAMERA_ASPECT_RATIO,
       Player.CAMERA_NEAR_CLIPPING_PLANE, Player.CAMERA_FAR_CLIPPING_PLANE);
-  return new Player(id, camera, position);
+  var position = new THREE.Vector3(position[0],
+                                   position[1],
+                                   position[2]);
+  var lookPosition = new THREE.Vector3(0, 0, 0);
+  return new Player(camera, position, lookPosition);
 };
 
 Player.prototype.updateFromClient = function() {
   this.position.copy(this.camera.position);
 
+  // We maintain a "virtual mouse position" since the mouse is locked.
   // The virtual mouse position is bounded to the width and height of the
   // canvas and maintained here.
   for (var i = 0; i < Input.RECENT_MOUSE_MOVEMENTS.length; ++i) {

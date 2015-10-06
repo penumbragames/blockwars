@@ -8,7 +8,7 @@
  * @constructor
  * @param {Element} container The container element for the game.
  */
-function Game(socket, container, scene, renderer, uiCanvas, self) {
+function Game(socket, container, scene, map, renderer, uiCanvas, self) {
   this.container = container;
   this.socket = socket;
 
@@ -18,27 +18,7 @@ function Game(socket, container, scene, renderer, uiCanvas, self) {
    */
   this.scene = scene;
   this.drawing = new Drawing(scene);
-
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
-  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  var cube = new THREE.Mesh(geometry, material);
-  cube.position.x = 9;
-  cube.position.z = 10;
-  var geometry2 = new THREE.BoxGeometry(1, 1, 2);
-  var material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  var cube2 = new THREE.Mesh(geometry2, material2);
-  cube2.position.x = 10;
-  cube2.position.z = 10;
-  this.scene.add(cube);
-  this.scene.add(cube2);
-
-  var floorGeometry = new THREE.BoxGeometry(1000, 1, 1000);
-  var floorMaterial = new THREE.MeshBasicMaterial({ color: 0xFF00FF });
-  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-  floor.position.x = 0;
-  floor.position.y = -1;
-  floor.position.z = 0;
-  this.scene.add(floor);
+  this.drawing.setMap(map);
 
   this.renderer = renderer;
   this.renderer.setSize(Game.WIDTH, Game.HEIGHT);
@@ -54,16 +34,15 @@ Game.WIDTH = 800;
 
 Game.HEIGHT = 600;
 
-Game.create = function(socket, parentElement, id, position) {
-  return new Game(socket, parentElement,
+Game.create = function(socket, parentElement, position, map) {
+  // @todo: integrate map sending
+  return new Game(socket,
+                  parentElement,
                   new THREE.Scene(),
+                  map,
                   new THREE.WebGLRenderer(),
                   null,
-                  Player.create(id, position));
-};
-
-Game.prototype.init = function() {
-
+                  Player.create(position));
 };
 
 Game.prototype.update = function() {

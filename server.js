@@ -43,7 +43,7 @@ io.on('connection', function(socket) {
     data = {}
     game.addNewPlayer(data.name, socket);
     socket.emit('initialize-game', {
-      id: socket.id
+      map: JSON.stringify(game.getMap())
     });
   });
 

@@ -15,6 +15,23 @@ function Drawing(scene) {
   this.players = [];
 }
 
+Drawing.prototype.setMap = function(map) {
+  for (var i = 0; i < map.length; ++i) {
+    var newGeometry = new THREE.BoxGeometry(map[i].size[0],
+                                            map[i].size[1],
+                                            map[i].size[2]);
+    var newMaterial = new THREE.MeshBasicMaterial({
+      color: map[i].color
+    });
+    var newMesh = new THREE.Mesh(newGeometry, newMaterial);
+    newMesh.position.x = map[i].position[0];
+    newMesh.position.y = map[i].position[1];
+    newMesh.position.z = map[i].position[2];
+    this.map.push(newMesh);
+    this.scene.add(newMesh);
+  }
+}
+
 Drawing.prototype.updatePlayers = function(players) {
   for (var i = 0; i < this.players.length; ++i) {
     this.scene.remove(this.players[i]);

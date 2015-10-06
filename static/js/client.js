@@ -20,7 +20,8 @@ $(document).ready(function() {
     // todo: proper initialization
     game = Game.create(socket,
                        document.getElementById('game-container'),
-                       data.id, [0, 0]);
+                       [0, 0, 0],
+                       JSON.parse(data.map));
     render();
   });
 

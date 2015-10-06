@@ -5,6 +5,7 @@
  */
 
 var HashMap = require('hashmap');
+var Map = require('./Map');
 var Player = require('./Player');
 
 /**
@@ -14,6 +15,8 @@ var Player = require('./Player');
  * @constructor
  */
 function Game() {
+  this.map = Map.generate();
+
   /**
    * This is a hashmap containing all the connected socket ids and socket
    * instances as well as the packet number of the socket and their latency.
@@ -30,6 +33,7 @@ function Game() {
    * These arrays contain entities in the game world. They do not need to be
    * stored in a hashmap because they do not have a unique id.
    */
+  this.entities = [];
 }
 
 /**
@@ -94,6 +98,15 @@ Game.prototype.updatePlayer = function(id,
  */
 Game.prototype.getPlayers = function() {
   return this.players.values();
+};
+
+/**
+ * Returns the array of JSON objects that represents the map the game is played
+ * on.
+ * @return {Array.<Object>}
+ */
+Game.prototype.getMap = function() {
+  return this.map.getObjects();
 };
 
 /**
