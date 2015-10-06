@@ -39,7 +39,9 @@ Drawing.prototype.updatePlayers = function(players) {
   this.players = [];
   for (var i = 0; i < players.length; ++i) {
     var playerGeometry = new THREE.BoxGeometry(1, 1, 1);
-    var playerMaterial = new THREE.MeshBasicMaterial({ color: 0xabcdef });
+    var playerMaterial = new THREE.MeshBasicMaterial({
+      color: 0xABCDEF
+    });
     var playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
     playerMesh.position.x = players[i].position[0];
     playerMesh.position.y = players[i].position[1];
