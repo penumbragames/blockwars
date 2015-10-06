@@ -17,6 +17,7 @@ Input.LEFT = false;
 Input.UP = false;
 Input.RIGHT = false;
 Input.DOWN = false;
+Input.SPACE = false;
 
 Input.onMouseDown = function(e) {
   if (e.which == 1) {
@@ -59,6 +60,9 @@ Input.onKeyDown = function(e) {
     case 83:
       Input.DOWN = true;
       break;
+    case 32:
+      Input.SPACE = true;
+      break;
   };
 };
 
@@ -79,6 +83,9 @@ Input.onKeyUp = function(e) {
     case 40:
     case 83:
       Input.DOWN = false;
+      break;
+    case 32:
+      Input.SPACE = false;
       break;
   };
 };

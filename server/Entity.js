@@ -3,16 +3,15 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
-var Constants = require('./Constants');
-var Util = require('./Util');
-
 /**
  * All entities will inherit from this class.
  * @constructor
  * @param {[number, number, number]} position
  */
-function Entity(position) {
+function Entity(position, velocity, acceleration) {
   this.position = position;
+  this.velocity = velocity;
+  this.acceleration = acceleration;
 }
 
 module.exports = Entity;

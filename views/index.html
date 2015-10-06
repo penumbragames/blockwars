@@ -6,13 +6,13 @@ Author: Alvin Lin (alvin.lin@stuypulse.com)
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel='stylesheet'
+          href='/static/dist/minified.css' />
+
     <script src='/socket.io/socket.io.js'>
     </script>
     <script src='/bower_components/jquery/dist/jquery.min.js'>
     </script>
-
-    <link rel='stylesheet'
-          href='/static/css/styles.css' />
   </head>
   <body>
     <button class='start'>lock mouse</button>
@@ -21,11 +21,13 @@ Author: Alvin Lin (alvin.lin@stuypulse.com)
   </body>
   <script src='/bower_components/three.js/build/three.min.js'>
   </script>
+  <script src='/shared/Constants.js'>
+  </script>
+  <script src='/shared/Util.js'>
+  </script>
   <script src='/static/js/requestAnimFrame.js'>
   </script>
   <script src='/static/js/Drawing.js'>
-  </script>
-  <script src='/static/js/Util.js'>
   </script>
   <script src='/static/js/Game.js'>
   </script>

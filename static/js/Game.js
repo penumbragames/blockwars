@@ -74,7 +74,8 @@ Game.prototype.update = function() {
       up: Input.UP,
       down: Input.DOWN,
       left: Input.LEFT,
-      right: Input.RIGHT
+      right: Input.RIGHT,
+      space: Input.SPACE
     },
     horizontalLookAngle: this.self.horizontalLookAngle,
     verticalLookAngle: this.self.verticalLookAngle,

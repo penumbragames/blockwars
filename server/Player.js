@@ -5,7 +5,9 @@
  */
 
 var Entity = require('./Entity');
-var Util = require('./Util');
+
+var Constants = require('../shared/Constants');
+var Util = require('../shared/Util');
 
 /**
  * Constructor for a Player.
@@ -24,6 +26,7 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
   this.id = id;
 
   this.velocity = [0, 0, 0];
+  this.acceleration = [0, 0, 0];
   this.moveSpeed = Player.DEFAULT_MOVESPEED;
 
   this.lastUpdateTime = (new Date()).getTime();
@@ -37,7 +40,8 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
 require('./inheritable');
 Player.inheritsFrom(Entity);
 
-Player.DEFAULT_MOVESPEED = 0.05;
+Player.DEFAULT_MOVESPEED = 0.02;
+Player.DEFAULT_JUMPSPEED = 0.025;
 Player.DEFAULT_SHOT_COOLDOWN = 800;
 Player.MAX_HEALTH = 10;
 
@@ -50,7 +54,7 @@ Player.MAX_HEALTH = 10;
  */
 Player.generateNewPlayer = function(name, id) {
   // @todo: Util.getRandomWorldPoint()
-  var point = [0, 0, 0];//Util.getRandomWorldPoint();
+  var point = [0, 0, 0];
   return new Player(point, 0, 0, name, id);
 };
 
@@ -99,6 +103,11 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
     this.velocity[2] = Player.DEFAULT_MOVESPEED * Math.sin(
       this.horizontalLookAngle + moveAngleRelativeToLookAngle);
   }
+
+  if (keyboardState.space) {
+    this.velocity[1] = Player.DEFAULT_JUMPSPEED;
+  }
+  this.velocity[1] += Constants.GRAVITATIONAL_ACCELERATION;
 };
 
 /**
@@ -110,6 +119,7 @@ Player.prototype.update = function() {
   for (var i = 0; i < this.position.length; ++i) {
     this.position[i] += this.velocity[i] * timeDifference;
   }
+  this.position[1] = Math.max(0, this.position[1]);
 
   this.lastUpdateTime = currentTime;
 };

@@ -27,6 +27,9 @@ app.set('view engine', 'html');
 app.use(morgan(':date[web] :method :url :req[header] :remote-addr :status'));
 app.use('/bower_components',
         express.static(__dirname + '/bower_components'));
+// @todo remove after deploy
+app.use('/shared',
+        express.static(__dirname + '/shared'));
 app.use('/static',
         express.static(__dirname + '/static'));
 
