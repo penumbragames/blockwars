@@ -75,7 +75,6 @@ Player.prototype.updateFromClient = function() {
 };
 
 Player.prototype.updateFromServer = function(position) {
-  console.log(position);
   this.camera.position.setX(position[0]);
   this.camera.position.setY(position[1]);
   this.camera.position.setZ(position[2]);

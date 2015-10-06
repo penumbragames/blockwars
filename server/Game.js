@@ -5,7 +5,6 @@
  */
 
 var HashMap = require('hashmap');
-
 var Player = require('./Player');
 
 /**

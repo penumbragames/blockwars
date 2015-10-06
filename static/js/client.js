@@ -18,8 +18,9 @@ $(document).ready(function() {
   socket.on('initialize-game', function(data) {
     Input.applyEventHandlers();
     // todo: proper initialization
-    game = Game.create(document.getElementById('game-container'),
-                       socket, 'blah', [0, 0]);
+    game = Game.create(socket,
+                       document.getElementById('game-container'),
+                       data.id, [0, 0]);
     render();
   });
 
@@ -29,7 +30,7 @@ $(document).ready(function() {
 });
 
 function render() {
-  requestAnimationFrame(render);
+  window.requestAnimFrame(render);
   game.update();
   game.render();
 }

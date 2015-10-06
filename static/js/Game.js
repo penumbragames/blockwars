@@ -8,7 +8,7 @@
  * @constructor
  * @param {Element} container The container element for the game.
  */
-function Game(container, socket, scene, renderer, uiCanvas, self) {
+function Game(socket, container, scene, renderer, uiCanvas, self) {
   this.container = container;
   this.socket = socket;
 
@@ -17,6 +17,7 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
    * on the renderer object to draw the 3D scene.
    */
   this.scene = scene;
+  this.drawing = new Drawing(scene);
 
   var geometry = new THREE.BoxGeometry(1, 1, 1);
   var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -31,6 +32,14 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
   this.scene.add(cube);
   this.scene.add(cube2);
 
+  var floorGeometry = new THREE.BoxGeometry(1000, 1, 1000);
+  var floorMaterial = new THREE.MeshBasicMaterial({ color: 0xFF00FF });
+  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.position.x = 0;
+  floor.position.y = -1;
+  floor.position.z = 0;
+  this.scene.add(floor);
+
   this.renderer = renderer;
   this.renderer.setSize(Game.WIDTH, Game.HEIGHT);
   // @todo prepend renderer to container so that uiCanvas can be overlaid.
@@ -38,7 +47,6 @@ function Game(container, socket, scene, renderer, uiCanvas, self) {
   this.uiCanvas = uiCanvas;
 
   this.self = self;
-
   this.players = [];
 }
 
@@ -46,12 +54,16 @@ Game.WIDTH = 800;
 
 Game.HEIGHT = 600;
 
-Game.create = function(parentElement, socket, id, position) {
-  return new Game(parentElement, socket,
+Game.create = function(socket, parentElement, id, position) {
+  return new Game(socket, parentElement,
                   new THREE.Scene(),
                   new THREE.WebGLRenderer(),
                   null,
                   Player.create(id, position));
+};
+
+Game.prototype.init = function() {
+
 };
 
 Game.prototype.update = function() {
@@ -68,6 +80,8 @@ Game.prototype.update = function() {
     verticalLookAngle: this.self.verticalLookAngle,
     timestamp: (new Date()).getTime()
   });
+
+  this.drawing.updatePlayers(this.players);
 };
 
 Game.prototype.receiveGameState = function(self, players) {

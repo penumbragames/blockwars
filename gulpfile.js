@@ -9,7 +9,6 @@ var autoprefixer = require('gulp-autoprefixer');
 var closureCompiler = require('gulp-closure-compiler');
 var less = require('gulp-less');
 var minifyCss = require('gulp-minify-css');
-var notify = require('gulp-notify');
 var rename = require('gulp-rename');
 
 gulp.task('default', ['js', 'less']);
@@ -20,8 +19,7 @@ gulp.task('js', function() {
       compilerPath: 'bower_components/closure-compiler/compiler.jar',
       fileName: 'minified.js'
     }))
-    .pipe(gulp.dest('./static/dist'))
-    .pipe(notify('JS compiled and minified'));
+    .pipe(gulp.dest('./static/dist'));
 });
 
 gulp.task('less', function() {
@@ -33,19 +31,18 @@ gulp.task('less', function() {
       path.basename = 'minified';
       path.extname = '.css';
     }))
-    .pipe(gulp.dest('./static/dist'))
-    .pipe(notify('LESS files compiled and minified'));
+    .pipe(gulp.dest('./static/dist'));
 });
 
 gulp.task('watch-js', function() {
-  gulp.watch('./scripts/**/*.js', ['js']);
+  gulp.watch('./static/js/*.js', ['js']);
 });
 
 gulp.task('watch-less', function() {
-  gulp.watch('./style/*.less', ['less']);
+  gulp.watch('./static/less/*.less', ['less']);
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./scripts/**/*.js', ['js']);
-  gulp.watch('./style/*.less', ['less']);
+  gulp.watch('./static/js/*.js', ['js']);
+  gulp.watch('./static/less/*.less', ['less']);
 });
