@@ -29,6 +29,8 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
   this.acceleration = [0, 0, 0];
   this.moveSpeed = Player.DEFAULT_MOVESPEED;
 
+  this.size = Player.DEFAULT_SIZE;
+
   this.lastUpdateTime = (new Date()).getTime();
   this.shotCooldown = Player.DEFAULT_SHOT_COOLDOWN;
   this.lastShotTime = 0;
@@ -40,7 +42,8 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
 require('./inheritable');
 Player.inheritsFrom(Entity);
 
-Player.DEFAULT_MOVESPEED = 0.02;
+Player.DEFAULT_SIZE = [0.1, 0.1, 0.1];
+Player.DEFAULT_MOVESPEED = 0.01;
 Player.DEFAULT_JUMPSPEED = 0.025;
 Player.DEFAULT_SHOT_COOLDOWN = 800;
 Player.MAX_HEALTH = 10;
@@ -104,22 +107,54 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
       this.horizontalLookAngle + moveAngleRelativeToLookAngle);
   }
 
+  // the player will jump if a space keystroke was received.
   if (keyboardState.space) {
     this.velocity[1] = Player.DEFAULT_JUMPSPEED;
   }
-  this.velocity[1] += Constants.GRAVITATIONAL_ACCELERATION;
+  this.velocity[1] += Math.max(0, Constants.GRAVITATIONAL_ACCELERATION);
 };
 
 /**
- * Updates the player's position and powerup states.
+ * Updates the player's position.
+ * @param {Array.<Object>} mapObjects
  */
-Player.prototype.update = function() {
+Player.prototype.update = function(mapObjects) {
+
+  // Calculate collisions and reconcile the player objects.
+
+  for (var i = 0; i < mapObjects.length; ++i) {
+    var currentObject = mapObjects[i];
+    if (this.isCollidedWith(currentObject)) {
+      if (Util.almostEqual(
+          Math.abs(this.position[0] - currentObject.position[0]),
+          this.size[0] + currentObject.size[0])) {
+        if (currentObject.position[0] > this.position[0]) {
+          this.velocity[0] = Math.min(0, this.velocity[0]);
+        } else {
+          this.velocity[0] = Math.max(0, this.velocity[0]);
+        }
+      }
+      if (Util.almostEqual(
+          Math.abs(this.position[2] - currentObject.position[2]),
+          this.size[2] + currentObject.size[2])) {
+        if (currentObject.position[2] > this.position[2]) {
+          this.velocity[2] = Math.min(0, this.velocity[2]);
+        } else {
+          this.velocity[2] = Math.max(0, this.velocity[2]);
+        }
+      }
+    }
+  }
+
+  // Based on the amount of time that passed between the current update call
+  // and the last update call, the player will move a certain amount.
   var currentTime = (new Date()).getTime();
   var timeDifference = currentTime - this.lastUpdateTime;
   for (var i = 0; i < this.position.length; ++i) {
     this.position[i] += this.velocity[i] * timeDifference;
   }
-  this.position[1] = Math.max(0, this.position[1]);
+
+  this.position[1] = Math.min(0, this.position[1]);
 
   this.lastUpdateTime = currentTime;
 };
@@ -132,21 +167,6 @@ Player.prototype.update = function() {
 Player.prototype.canShoot = function() {
   return (new Date()).getTime() >
     this.lastShotTime + this.shotCooldown;
-};
-
-/**
- * Used to determine if two objects have collided, factors in shields, since
- * they increase the player's hitbox. This collision detection method assumes
- * all objects have circular hitboxes.
- * @param {number} x The x-coordinate of the center of the object's circular
- *   hitbox.
- * @param {number} y The y-coordinate of the center of the object's circular
- *   hitbox.
- * @param {number} hitboxSize The radius of the object's circular
- *   hitbox.
- */
-Player.prototype.isCollidedWith = function(x, y, hitboxSize) {
-  throw new Error('unimplemented exception!');
 };
 
 /**

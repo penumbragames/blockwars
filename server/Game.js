@@ -116,7 +116,7 @@ Game.prototype.update = function() {
   // Update all the players.
   var players = this.getPlayers();
   for (var i = 0; i < players.length; ++i) {
-    players[i].update();
+    players[i].update(this.map.getObjects());
   }
 };
 

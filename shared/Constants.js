@@ -12,6 +12,8 @@ function Constants() {
   throw new Error('Constants should not be instantiated!');
 }
 
+Constants.DEFAULT_EPSILON = 0.2;
+
 Constants.GRAVITATIONAL_ACCELERATION = -0.005;
 
 try {

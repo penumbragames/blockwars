@@ -4,6 +4,8 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
+var Entity = require('./Entity');
+
 function Map() {
   this.objects = [];
 }
@@ -17,13 +19,15 @@ Map.generate = function() {
 };
 
 Map.prototype.addBlock = function(position, size, color) {
-  this.objects.push({
-    position: position,
-    size: size,
-    color: color
-  });
+  var block = new Entity(position, null, null, size);
+  block.color = color;
+  this.objects.push(block);
 };
 
+/**
+ * Returns the objects in the map for serialization so that it can be
+ * sent to the client.
+ */
 Map.prototype.getObjects = function() {
   return this.objects;
 };

@@ -18,6 +18,19 @@ function Util() {
 };
 
 /**
+ * Returns true if the two given values are almost equal to each other,
+ * based on an optional epsilon value.
+ * @param {number} a The first value to compare.
+ * @param {number} b The second value to compare.
+ * @param {?epsilon=} epsilon The threshold below which they are considered
+ * equal.
+ */
+Util.almostEqual = function(a, b, epsilon) {
+  epsilon = epsilon ? epsilon : Constants.DEFAULT_EPSILON;
+  return Math.abs(a - b) < epsilon;
+};
+
+/**
  * Returns the Manhattan Distance between two points given their x and y
  * coordinates.
  * @param {number} x1 The x-coordinate of the first point.
@@ -107,9 +120,7 @@ Util.bound = function(val, min, max) {
  */
 Util.randRange = function(min, max) {
   if (min >= max) {
-    var swap = min;
-    min = max;
-    max = swap;
+    return (Math.random() * (min - max)) + max;
   }
   return (Math.random() * (max - min)) + min;
 };
@@ -122,9 +133,7 @@ Util.randRange = function(min, max) {
  */
 Util.randRangeInt = function(min, max) {
   if (min >= max) {
-    var swap = min;
-    min = max;
-    max = swap;
+    return Math.floor(Math.random() * (min - max)) + max;
   }
   return Math.floor(Math.random() * (max - min)) + min;
 };
