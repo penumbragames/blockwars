@@ -44,7 +44,7 @@ Player.inheritsFrom(Entity);
 
 Player.DEFAULT_SIZE = [0.1, 0.1, 0.1];
 Player.DEFAULT_MOVESPEED = 0.01;
-Player.DEFAULT_JUMPSPEED = 0.025;
+Player.DEFAULT_JUMPSPEED = 0.01;
 Player.DEFAULT_SHOT_COOLDOWN = 800;
 Player.MAX_HEALTH = 10;
 
@@ -107,11 +107,11 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
       this.horizontalLookAngle + moveAngleRelativeToLookAngle);
   }
 
-  // the player will jump if a space keystroke was received.
+  // The player will jump if a space keystroke was received.
   if (keyboardState.space) {
     this.velocity[1] = Player.DEFAULT_JUMPSPEED;
   }
-  this.velocity[1] += Math.max(0, Constants.GRAVITATIONAL_ACCELERATION);
+  this.velocity[1] += Constants.GRAVITATIONAL_ACCELERATION;
 };
 
 /**
@@ -121,10 +121,12 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
 Player.prototype.update = function(mapObjects) {
 
   // Calculate collisions and reconcile the player objects.
-
   for (var i = 0; i < mapObjects.length; ++i) {
     var currentObject = mapObjects[i];
+    // Iterate throught the objects in the map, if we have collided with one
+    // we will set the x and z velocities accordingly.
     if (this.isCollidedWith(currentObject)) {
+      // The x and z velocities will be set to zero upon collision.
       if (Util.almostEqual(
           Math.abs(this.position[0] - currentObject.position[0]),
           this.size[0] + currentObject.size[0])) {
@@ -143,6 +145,14 @@ Player.prototype.update = function(mapObjects) {
           this.velocity[2] = Math.max(0, this.velocity[2]);
         }
       }
+
+      // The y velocity will be treated differently so that a player can land
+      // on top of an object.
+      if (Util.almostEqual(
+          Math.abs(this.position[1] - currentObject.position[1]),
+          this.size[1] + currentObject.size[1]), 0.2) {
+          this.velocity[1] = Math.max(0, this.velocity[1]);
+      }
     }
   }
 
@@ -153,8 +163,7 @@ Player.prototype.update = function(mapObjects) {
   for (var i = 0; i < this.position.length; ++i) {
     this.position[i] += this.velocity[i] * timeDifference;
   }
-
-  this.position[1] = Math.min(0, this.position[1]);
+  this.position[1] = Math.max(0, this.position[1]);
 
   this.lastUpdateTime = currentTime;
 };
