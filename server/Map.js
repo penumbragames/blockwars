@@ -14,7 +14,7 @@ Map.generate = function() {
   var map = new Map();
   map.addBlock([9, 0, 10], [1, 1, 1], 0x0000FF);
   map.addBlock([10, 0, 10], [1, 1, 2], 0x00FF00);
-  map.addBlock([0, -1, 0], [1000, 1, 1000], 0xABCDEF);
+  map.addBlock([0, -1, 0], [1000, 0.5, 1000], 0xABCDEF);
   return map;
 };
 

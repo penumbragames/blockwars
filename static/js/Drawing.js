@@ -15,11 +15,19 @@ function Drawing(scene) {
   this.players = [];
 }
 
+/**
+ * Given the array of objects in the map during initialization, this
+ * function adds them all to the scene so that they do not have to be
+ * redrawn later. When we create the BoxGeometry, we use double the
+ * sizes in the x, y, and z dimensions because the states stored on the
+ * server store the half-width, half-height, and half-length.
+ * @param {Array.<Object>} map
+ */
 Drawing.prototype.setMap = function(map) {
   for (var i = 0; i < map.length; ++i) {
-    var newGeometry = new THREE.BoxGeometry(map[i].size[0],
-                                            map[i].size[1],
-                                            map[i].size[2]);
+    var newGeometry = new THREE.BoxGeometry(map[i].size[0] * 2,
+                                            map[i].size[1] * 2,
+                                            map[i].size[2] * 2);
     var newMaterial = new THREE.MeshBasicMaterial({
       color: map[i].color
     });
@@ -38,9 +46,11 @@ Drawing.prototype.updatePlayers = function(players) {
   }
   this.players = [];
   for (var i = 0; i < players.length; ++i) {
-    var playerGeometry = new THREE.BoxGeometry(1, 1, 1);
+    var playerGeometry = new THREE.BoxGeometry(players[i].size[0] * 2,
+                                               players[i].size[1] * 2,
+                                               players[i].size[2] * 2);
     var playerMaterial = new THREE.MeshBasicMaterial({
-      color: 0xABCDEF
+      color: 0xFBABFC
     });
     var playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
     playerMesh.position.x = players[i].position[0];

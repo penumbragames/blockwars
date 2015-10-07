@@ -42,7 +42,7 @@ function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
 require('./inheritable');
 Player.inheritsFrom(Entity);
 
-Player.DEFAULT_SIZE = [0.1, 0.1, 0.1];
+Player.DEFAULT_SIZE = [0.5, 1, 0.5];
 Player.DEFAULT_MOVESPEED = 0.01;
 Player.DEFAULT_JUMPSPEED = 0.01;
 Player.DEFAULT_SHOT_COOLDOWN = 800;
