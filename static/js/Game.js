@@ -34,7 +34,6 @@ function Game(socket, container, scene, map, renderer, uiCanvas, self) {
 }
 
 Game.WIDTH = 800;
-
 Game.HEIGHT = 600;
 
 Game.create = function(socket, parentElement, position, map) {
@@ -42,6 +41,8 @@ Game.create = function(socket, parentElement, position, map) {
   var renderer = new THREE.WebGLRenderer();
   var uiCanvas = document.createElement('canvas');
   uiCanvas.setAttribute('style', 'border-radius: 50px;');
+  uiCanvas.width = 800;
+  uiCanvas.height = 600;
   var player = Player.create(position);
   return new Game(socket, parentElement, scene, map,
                   renderer, uiCanvas, player);
@@ -66,7 +67,7 @@ Game.prototype.update = function() {
 };
 
 Game.prototype.receiveGameState = function(self, players, projectiles) {
-  this.self.updateFromServer(self.position);
+  this.self.updateFromServer(self.position, self.health);
   this.players = players;
   this.projectiles = projectiles;
 };
@@ -75,5 +76,7 @@ Game.prototype.render = function() {
   this.renderer.render(this.scene, this.self.camera);
   this.drawing.redrawPlayers(this.players);
   this.drawing.redrawProjectiles(this.projectiles);
-  this.drawing.redrawUI();
+  this.drawing.redrawUI(this.self.health);
+  console.log(this.self);
+  console.log = function() {};
 };

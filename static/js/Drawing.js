@@ -3,6 +3,8 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
+var limit = 1;
+
 /**
  * @constructor
  * Constructor for the Drawing object. Takes a scene which it should modify.
@@ -90,9 +92,25 @@ Drawing.prototype.redrawProjectiles = function(projectiles) {
   }
 };
 
-Drawing.prototype.redrawUI = function() {
+Drawing.prototype.redrawUI = function(health) {
   this.uiCanvasContext.save();
+
+  if (limit == 1) {
+  this.uiCanvasContext.font="20px Georgia";
+  this.uiCanvasContext.fillStyle = 'white';
+  this.uiCanvasContext.fillText("Health Points", 5, 560);
+  this.uiCanvasContext.beginPath();
+  this.uiCanvasContext.strokeStyle = 'white';
+  this.uiCanvasContext.moveTo(350, 300);
+  this.uiCanvasContext.lineTo(450, 300);
+  this.uiCanvasContext.stroke();
+  this.uiCanvasContext.moveTo(400, 250);
+  this.uiCanvasContext.lineTo(400, 350);
+  this.uiCanvasContext.stroke();
+  limit++;
+  }
+
   this.uiCanvasContext.fillStyle = 'red';
-  this.uiCanvasContext.fillRect(20, 20, 60, 60);
+  this.uiCanvasContext.fillRect(5, 570, 20*health, 20);
   this.uiCanvasContext.restore();
 };
