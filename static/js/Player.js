@@ -15,6 +15,8 @@ function Player(camera, position, lookPosition) {
   this.horizontalLookAngle = 0;
   this.verticalLookAngle = 0;
   this.lookPosition = lookPosition;
+
+  this.health = 0;
 }
 
 Player.CAMERA_FIELD_OF_VIEW = 70;
@@ -78,8 +80,9 @@ Player.prototype.updateFromClient = function() {
   this.camera.lookAt(this.lookPosition);
 };
 
-Player.prototype.updateFromServer = function(position) {
+Player.prototype.updateFromServer = function(position, health) {
   this.camera.position.setX(position[0]);
   this.camera.position.setY(position[1]);
   this.camera.position.setZ(position[2]);
+  this.health = health;
 };
