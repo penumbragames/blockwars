@@ -126,7 +126,7 @@ Game.prototype.update = function() {
 
   for (var i = 0; i < this.projectiles.length; ++i) {
     if (this.projectiles[i].shouldExist) {
-      this.projectiles[i].update(this.players);
+      this.projectiles[i].update(this.players, this.map.getObjects());
     } else {
       var removedProjectile = this.projectiles.splice(i, 1);
       i--;

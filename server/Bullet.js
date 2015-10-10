@@ -67,7 +67,7 @@ Bullet.create = function(source, position, horizontalAngle, verticalAngle) {
 /**
  * Updates this bullet's position and internal state.
  */
-Bullet.prototype.update = function(clients) {
+Bullet.prototype.update = function(clients, mapObjects) {
   var lastPosition = shallowCopy(this.position);
   this.parent.update.call(this);
 
@@ -79,13 +79,19 @@ Bullet.prototype.update = function(clients) {
   for (var i = 0; i < players.length; ++i) {
     if (this.source != players[i].id &&
         players[i].lineIntersects(lastPosition, this.position)) {
-      // @todo
-//      players[i].damage(1);
+      players[i].damage(1);
 //      if (players[i].isDead()) {
 //        players[i].respawn();
 //        var killingPlayer = clients.get(this.source);
 //        killingPlayer.kills++;
 //      }
+      this.shouldExist = false;
+      return;
+    }
+  }
+
+  for (var i = 0; i < mapObjects.length; ++i) {
+    if (this.isCollidedWith(mapObjects[i])) {
       this.shouldExist = false;
       return;
     }

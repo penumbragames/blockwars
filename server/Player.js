@@ -122,7 +122,6 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
  * @param {Array.<Object>} mapObjects
  */
 Player.prototype.update = function(mapObjects) {
-
   // Calculate collisions and reconcile the player objects.
   for (var i = 0; i < mapObjects.length; ++i) {
     var currentObject = mapObjects[i];

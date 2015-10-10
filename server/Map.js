@@ -18,6 +18,18 @@ Map.generate = function() {
   return map;
 };
 
+
+Map.prototype.addBlockHelper = function(lowerCorner, size, color) {
+  this.addBlock(
+      [lowerCorner[0] + size[0] / 2,
+       lowerCorner[1] + size[1] / 2,
+       lowerCorner[2] + size[2] / 2],
+      [size[0] / 2,
+       size[1] / 2,
+       size[2] / 2],
+      color);
+};
+
 Map.prototype.addBlock = function(position, size, color) {
   var block = new Entity(position, null, null, size);
   block.color = color;
