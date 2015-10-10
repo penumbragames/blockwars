@@ -5,10 +5,15 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
+var add = require('vectors/add')(3);
+
+var Util = require('../shared/Util');
+
 /**
  * All entities will inherit from this class. All internal values are
  * 3-tuples which contain an x, y, and z component. Size is a half
  * measurement that determines half the size of the entity in that dimension.
+ * The actual rendered size is [size[0] * 2, size[1] * 2, size[2] * 2].
  * @constructor
  * @param {[number, number, number]} position
  * @param {[number, number, number]} velocity
@@ -16,16 +21,17 @@
  * @param {[number, number, number]} size
  */
 function Entity(position, velocity, acceleration, size) {
-  this.position = position;
-  this.velocity = velocity;
-  this.acceleration = acceleration;
+  this.position = position || [0, 0, 0];
+  this.velocity = velocity || [0, 0, 0];
+  this.acceleration = acceleration || [0, 0, 0];
+  this.size = size || [0, 0, 0];
 
-  this.size = size;
+  this.lastUpdateTime = 0;
 }
 
 /**
- * Returns an array containing two opposite points on this
- * cubic entity.
+ * Returns an array containing two opposite points on this entity's
+ * bounding box.
  * @return {Array.<[number, number, number]>}
  */
 Entity.prototype.getCornerBounds = function() {
@@ -42,8 +48,7 @@ Entity.prototype.getCornerBounds = function() {
 };
 
 /**
- * Returns true if the given point is contained within this
- * entity.
+ * Returns true if the given point is contained within this entity.
  * @param {[number, number, number]}
  */
 Entity.prototype.containsPoint = function(point) {
@@ -54,9 +59,9 @@ Entity.prototype.containsPoint = function(point) {
 };
 
 /**
- * This method will operate under the assumption that all entities are
- * cubic and perpendicular to the coordinate planes. Returns true when
- * two entities have collided with each other.
+ * This method operates under the assumption that all entities have
+ * axis-aligned bounding boxes. Returns true if the given entity is touching
+ * or intersecting with this entity.
  * @param {Entity} other
  */
 Entity.prototype.isCollidedWith = function(other) {
@@ -77,8 +82,20 @@ Entity.prototype.isCollidedWith = function(other) {
 Entity.prototype.lineIntersects = function(p1, p2) {
   var cornerBounds = this.getCornerBounds();
 
-  var intersects = this.containsPoint(p1);
+  // If either the start or end point is contained with this entity, then we
+  // can stop because it obviously intersects the entity.
+  var intersects = this.containsPoint(p1) || this.containsPoint(p2);
   if (!intersects) {
+    // This is a magic algorithm called the standard slab test based on a
+    // paper by Jeffrey Mahovsky and Brian Wyvill on collision algorithm
+    // efficiency comparison. However, this does not use their scheme of
+    // Plucker coordinates.
+    // A slab is the space between two parallel planes. We look at the
+    // intersection of each pair of planes with the line and find the near and
+    // far intersection for each pair. If the overall largest tNear value
+    // (intersection with the near slab) is greater than the smallest tFar
+    // value (intersection with the far slab) then the line misses, otherwise
+    // we know that it hits the given axis-aligned bounding box.
     var tNearMax = Number.MIN_VALUE;
     var tFarMin = Number.MAX_VALUE;
 
@@ -92,11 +109,11 @@ Entity.prototype.lineIntersects = function(p1, p2) {
     }
     tNearMax = Math.max(tNearMax, tNear);
     tFarMin = Math.min(tFarMin, tFar);
-    intersect = (tNearMax <= tFarMin);
+    intersects = (tNearMax <= tFarMin);
 
     // If an intersection was detected, do the same calculation for y
-    // and z.
-    if (intersect) {
+    // and z to verify that the line actually intersects.
+    if (intersects) {
       div = 1 / p2[1];
       tNear = (cornerBounds[0][1] - p1[1]) * div;
       tFar = (cornerBounds[1][1] - p1[1]) * div;
@@ -107,10 +124,10 @@ Entity.prototype.lineIntersects = function(p1, p2) {
       }
       tNearMax = Math.max(tNearMax, tNear);
       tFarMin = Math.min(tFarMin, tFar);
-      intersect = (tNearMax <= tFarMin);
+      intersects = (tNearMax <= tFarMin);
     }
 
-    if (intersect) {
+    if (intersects) {
       div = 1 / p2[2];
       tNear = (cornerBounds[0][2] - p1[2]) * div;
       tFar = (cornerBounds[1][2] - p1[2]) * div;
@@ -121,10 +138,27 @@ Entity.prototype.lineIntersects = function(p1, p2) {
       }
       tNearMax = Math.max(tNearMax, tNear);
       tFarMin = Math.min(tFarMin, tFar);
-      intersect = (tNearMax <= tFarMin);
+      intersects = (tNearMax <= tFarMin);
     }
   }
-  return intersect;
+  return intersects;
+};
+
+/**
+ * Updates what's known to the Entity, namely the position, velocity, and
+ * acceleration based on the time that has passed between the current and last
+ * update call.
+ */
+Entity.prototype.update = function() {
+  // Based on the amount of time that passed between the current update call
+  // and the last update call, the entity will move a certain amount.
+  var currentTime = (new Date()).getTime();
+  var timeDifference = currentTime - this.lastUpdateTime;
+  for (var i = 0; i < this.position.length; ++i) {
+    this.position[i] += this.velocity[i] * timeDifference;
+    this.velocity[i] += this.acceleration[i] * timeDifference;
+  }
+  this.lastUpdateTime = currentTime;
 };
 
 module.exports = Entity;

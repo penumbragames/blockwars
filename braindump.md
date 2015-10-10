@@ -1,3 +1,5 @@
+# 10/7/2015
+
 Ugh, so we're using a posteriori collision detection, where the internal game
 state is updated in discrete steps every time the game loop updates. Every
 tick, the positions of the objects are updated by their velocities, etc.
@@ -14,3 +16,13 @@ case of the player being on top of a box, the player can occasionally fall
 through the box if their downward velocity is too high and they jump through
 the epsilon threshold. If we increase the epsilon threshold, then collision
 becomes very weird.
+
+# 10/9/2015
+
+Instead of making bullets an instant shot upon click, it's better for animation
+to create a Bullet class and have it update in discrete steps, but still fast
+enough for it to hit almost instantly. The only problem this presents client
+side is that objects are constantly being added and removed from the
+THREE.Scene. To solve the problem of the bullet skipping over a player entity,
+we will calculate if the line connecting its position before and after update
+intersects any entity's axis-aligned bounding box.

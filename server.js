@@ -41,7 +41,7 @@ io.on('connection', function(socket) {
 
   socket.on('new-player', function(data) {
     data = {}
-    game.addNewPlayer(data.name, socket);
+    game.addNewPlayer(socket, data.name);
     socket.emit('initialize-game', {
       map: JSON.stringify(game.getMap())
     });
@@ -53,6 +53,9 @@ io.on('connection', function(socket) {
                       data.horizontalLookAngle,
                       data.verticalLookAngle,
                       data.timestamp);
+    if (data.shooting) {
+      game.addProjectileShotBy(socket.id);
+    }
   });
 
   socket.on('disconnect', function() {

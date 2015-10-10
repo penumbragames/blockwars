@@ -33,7 +33,7 @@ function Game() {
    * These arrays contain entities in the game world. They do not need to be
    * stored in a hashmap because they do not have a unique id.
    */
-  this.entities = [];
+  this.projectiles = [];
 }
 
 /**
@@ -41,12 +41,12 @@ function Game() {
  * @param {string} The display name of the player.
  * @param {Object} The socket object of the player.
  */
-Game.prototype.addNewPlayer = function(name, socket) {
+Game.prototype.addNewPlayer = function(socket, name) {
   this.clients.set(socket.id, {
     socket: socket,
     latency: 0
   });
-  this.players.set(socket.id, Player.generateNewPlayer(name, socket.id));
+  this.players.set(socket.id, Player.create(socket.id, name));
 };
 
 /**
@@ -59,7 +59,6 @@ Game.prototype.removePlayer = function(id) {
   }
   if (this.players.has(id)) {
     var player = this.players.get(id);
-    // todo: fixed hardcoded constants
     this.players.remove(id);
   }
 };
@@ -101,6 +100,19 @@ Game.prototype.getPlayers = function() {
 };
 
 /**
+ * Given a socket ID, adds a projectile that was fired by the player
+ * associated with that ID if and only if that player can fire.
+ * @param {string} The socket ID of the player that fired a projectile.
+ */
+Game.prototype.addProjectileShotBy = function(id) {
+  var player = this.players.get(id);
+  if (player && player.canShoot()) {
+    this.projectiles.push(player.getProjectileShot());
+    console.log(this.projectiles);
+  }
+};
+
+/**
  * Returns the array of JSON objects that represents the map the game is played
  * on.
  * @return {Array.<Object>}
@@ -118,6 +130,15 @@ Game.prototype.update = function() {
   for (var i = 0; i < players.length; ++i) {
     players[i].update(this.map.getObjects());
   }
+
+  for (var i = 0; i < this.projectiles.length; ++i) {
+    if (this.projectiles[i].shouldExist) {
+      this.projectiles[i].update(this.players);
+    } else {
+      var removedProjectile = this.projectiles.splice(i, 1);
+      i--;
+    }
+  }
 };
 
 /**
@@ -125,7 +146,9 @@ Game.prototype.update = function() {
  * filtering them appropriately.
  */
 Game.prototype.sendState = function() {
-  // filter for visible.
+
+  console.log(this.projectiles);
+
   var ids = this.clients.keys();
   for (var i = 0; i < ids.length; ++i) {
     var currentPlayer = this.players.get(ids[i]);
@@ -135,6 +158,7 @@ Game.prototype.sendState = function() {
       players: this.players.values().filter(function(player) {
         return player.id != currentPlayer.id;
       }),
+      projectiles: this.projectiles,
       latency: currentClient.latency
     });
   }

@@ -2,6 +2,7 @@
  * This client side class encapsulates the game and handles the interaction
  * between the various objects in the world.
  * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @todo Document the fucking shit out of everything.
  */
 
 /**
@@ -58,6 +59,7 @@ Game.prototype.update = function() {
     },
     horizontalLookAngle: this.self.horizontalLookAngle,
     verticalLookAngle: this.self.verticalLookAngle,
+    shooting: Input.LEFT_CLICK,
     timestamp: (new Date()).getTime()
   });
 

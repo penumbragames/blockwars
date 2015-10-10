@@ -14,7 +14,7 @@ function Constants() {
 
 Constants.DEFAULT_EPSILON = 0.2;
 
-Constants.GRAVITATIONAL_ACCELERATION = -0.0005;
+Constants.GRAVITATIONAL_ACCELERATION = -0.00005;
 
 try {
   module.exports = Constants;

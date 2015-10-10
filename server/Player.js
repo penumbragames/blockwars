@@ -4,6 +4,7 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
+var Bullet = require('./Bullet');
 var Entity = require('./Entity');
 
 var Constants = require('../shared/Constants');
@@ -18,20 +19,18 @@ var Util = require('../shared/Util');
  * @param {string} id The socket ID of the client associated with this
  *   player.
  */
-function Player(position, horizontalLookAngle, verticalLookAngle, name, id) {
+function Player(id, position, horizontalLookAngle, verticalLookAngle, name) {
+  this.id = id;
   this.position = position;
   this.horizontalLookAngle = horizontalLookAngle;
   this.verticalLookAngle = verticalLookAngle;
   this.name = name;
-  this.id = id;
 
-  this.velocity = [0, 0, 0];
-  this.acceleration = [0, 0, 0];
+  this.acceleration = [0, Constants.GRAVITATIONAL_ACCELERATION, 0];
   this.moveSpeed = Player.DEFAULT_MOVESPEED;
 
   this.size = Player.DEFAULT_SIZE;
 
-  this.lastUpdateTime = (new Date()).getTime();
   this.shotCooldown = Player.DEFAULT_SHOT_COOLDOWN;
   this.lastShotTime = 0;
   this.health = Player.MAX_HEALTH;
@@ -55,10 +54,10 @@ Player.MAX_HEALTH = 10;
  *   player.
  * @return {Player}
  */
-Player.generateNewPlayer = function(name, id) {
+Player.create = function(id, name) {
   // @todo: Util.getRandomWorldPoint()
   var point = [0, 0, 0];
-  return new Player(point, 0, 0, name, id);
+  return new Player(id, point, 0, 0, name);
 };
 
 /**
@@ -111,7 +110,6 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
   if (keyboardState.space) {
     this.velocity[1] = Player.DEFAULT_JUMPSPEED;
   }
-  this.velocity[1] += Constants.GRAVITATIONAL_ACCELERATION;
 };
 
 /**
@@ -156,16 +154,9 @@ Player.prototype.update = function(mapObjects) {
     }
   }
 
-  // Based on the amount of time that passed between the current update call
-  // and the last update call, the player will move a certain amount.
-  var currentTime = (new Date()).getTime();
-  var timeDifference = currentTime - this.lastUpdateTime;
-  for (var i = 0; i < this.position.length; ++i) {
-    this.position[i] += this.velocity[i] * timeDifference;
-  }
+  // super.update()
+  this.parent.update.call(this);
   this.position[1] = Math.max(0, this.position[1]);
-
-  this.lastUpdateTime = currentTime;
 };
 
 /**
@@ -176,6 +167,17 @@ Player.prototype.update = function(mapObjects) {
 Player.prototype.canShoot = function() {
   return (new Date()).getTime() >
     this.lastShotTime + this.shotCooldown;
+};
+
+/**
+ * Returns a projectile shot based on the player's current position and angle.
+ * This function assumes that all cooldown checks have passed and the player
+ * can shoot.
+ */
+Player.prototype.getProjectileShot = function() {
+  this.lastShotTime = (new Date()).getTime();
+  return Bullet.create(this.id, this.position, this.horizontalLookAngle,
+                       this.verticalLookAngle);
 };
 
 /**
