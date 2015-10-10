@@ -21,18 +21,21 @@ var Util = require('../shared/Util');
  * @param {string} id The socket ID of the client associated with this
  *   player.
  */
-function Player(id, position, horizontalLookAngle, verticalLookAngle, name) {
+function Player(id, name, position, horizontalLookAngle, verticalLookAngle) {
   this.id = id;
+  this.name = name;
   this.position = position;
   this.horizontalLookAngle = horizontalLookAngle;
   this.verticalLookAngle = verticalLookAngle;
-  this.name = name;
 
+  this.velocity = [0, 0, 0];
   this.acceleration = [0, Constants.GRAVITATIONAL_ACCELERATION, 0];
   this.moveSpeed = Player.DEFAULT_MOVESPEED;
 
   this.size = Player.DEFAULT_SIZE;
 
+  this.lastUpdateTime = (new Date()).getTime();
+  this.updateTimeDifference = 0;
   this.shotCooldown = Player.DEFAULT_SHOT_COOLDOWN;
   this.lastShotTime = 0;
   this.health = Player.MAX_HEALTH;
@@ -59,7 +62,7 @@ Player.MAX_HEALTH = 10;
 Player.create = function(id, name) {
   // @todo: Util.getRandomWorldPoint()
   var point = [0, 0, 0];
-  return new Player(id, point, 0, 0, name);
+  return new Player(id, name, point, 0, 0);
 };
 
 /**
@@ -156,7 +159,6 @@ Player.prototype.update = function(mapObjects) {
     }
   }
 
-  // super.update()
   this.parent.update.call(this);
   this.position[1] = Math.max(0, this.position[1]);
 };

@@ -13,6 +13,7 @@ function Drawing(scene) {
 
   this.map = [];
   this.players = [];
+  this.projectiles = [];
 }
 
 /**
@@ -58,5 +59,29 @@ Drawing.prototype.updatePlayers = function(players) {
     playerMesh.position.z = players[i].position[2];
     this.scene.add(playerMesh);
     this.players.push(playerMesh);
+  }
+};
+
+Drawing.prototype.updateProjectiles = function(projectiles) {
+  for (var i = 0; i < this.projectiles.length; ++i) {
+    this.scene.remove(this.projectiles[i]);
+  }
+  this.projectiles = [];
+  for (var i = 0; i < projectiles.length; ++i) {
+    var projectileGeometry = new THREE.BoxGeometry(
+        projectiles[i].size[0] * 2,
+        projectiles[i].size[1] * 2,
+        projectiles[i].size[2] * 2
+    );
+    var projectileMaterial = new THREE.MeshBasicMaterial({
+      color: 0xFFFFFF
+    });
+    var projectileMesh = new THREE.Mesh(projectileGeometry,
+                                        projectileMaterial);
+    projectileMesh.position.x = projectiles[i].position[0];
+    projectileMesh.position.y = projectiles[i].position[1];
+    projectileMesh.position.z = projectiles[i].position[2];
+    this.scene.add(projectileMesh);
+    this.projectiles.push(projectileMesh);
   }
 };

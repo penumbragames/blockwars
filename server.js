@@ -41,7 +41,7 @@ io.on('connection', function(socket) {
 
   socket.on('new-player', function(data) {
     data = {}
-    game.addNewPlayer(socket, data.name);
+    game.addNewPlayer(socket, 'name');
     socket.emit('initialize-game', {
       map: JSON.stringify(game.getMap())
     });

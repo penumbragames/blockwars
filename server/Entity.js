@@ -159,6 +159,7 @@ Entity.prototype.update = function() {
   } else {
     this.updateTimeDifference = currentTime - this.lastUpdateTime;
   }
+
   for (var i = 0; i < this.position.length; ++i) {
     this.position[i] += this.velocity[i] * this.updateTimeDifference;
     this.velocity[i] += this.acceleration[i] * this.updateTimeDifference;

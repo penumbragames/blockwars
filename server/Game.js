@@ -59,6 +59,7 @@ Game.prototype.removePlayer = function(id) {
   }
   if (this.players.has(id)) {
     var player = this.players.get(id);
+    // todo: fixed hardcoded constants
     this.players.remove(id);
   }
 };
@@ -100,6 +101,15 @@ Game.prototype.getPlayers = function() {
 };
 
 /**
+ * Returns the array of JSON objects that represents the map the game is played
+ * on.
+ * @return {Array.<Object>}
+ */
+Game.prototype.getMap = function() {
+  return this.map.getObjects();
+};
+
+/**
  * Given a socket ID, adds a projectile that was fired by the player
  * associated with that ID if and only if that player can fire.
  * @param {string} The socket ID of the player that fired a projectile.
@@ -109,15 +119,6 @@ Game.prototype.addProjectileShotBy = function(id) {
   if (player && player.canShoot()) {
     this.projectiles.push(player.getProjectileShot());
   }
-};
-
-/**
- * Returns the array of JSON objects that represents the map the game is played
- * on.
- * @return {Array.<Object>}
- */
-Game.prototype.getMap = function() {
-  return this.map.getObjects();
 };
 
 /**

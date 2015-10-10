@@ -26,8 +26,7 @@ $(document).ready(function() {
   });
 
   socket.on('update', function(data) {
-    game.receiveGameState(data.self, data.players);
-    console.log(data.projectiles);
+    game.receiveGameState(data.self, data.players, data.projectiles);
   });
 });
 

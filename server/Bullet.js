@@ -4,7 +4,7 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
-var shallowCopy = require('shallow-copy');
+var copy = require('shallow-copy');
 
 var Entity = require('./Entity');
 
@@ -32,9 +32,9 @@ function Bullet(position, velocity, size, source) {
 require('./inheritable');
 Bullet.inheritsFrom(Entity);
 
-Bullet.VELOCITY_MAGNITUDE = 0.1;
+Bullet.VELOCITY_MAGNITUDE = 0.15;
 Bullet.DEFAULT_DAMAGE = 1;
-Bullet.MAX_TRAVEL_DISTANCE = 1000;
+Bullet.MAX_TRAVEL_DISTANCE = 500;
 Bullet.SIZE = [0.1, 0.1, 0.1];
 
 /**
@@ -59,31 +59,28 @@ Bullet.create = function(id, position, horizontalAngle, verticalAngle) {
 };
 
 Bullet.prototype.update = function(clients) {
+  var lastPosition = copy(this.position);
   this.parent.update.call(this);
 
-  // For less intensive process, we will add Manhattan distance instead.
-  for (var i = 0; i < this.position.length; ++i) {
-    this.distanceTraveled += Bullet.VELOCITY_MAGNITUDE *
-        this.updateTimeDifference;
-  }
-
+  this.distanceTraveled += Bullet.VELOCITY_MAGNITUDE *
+      this.updateTimeDifference;
   this.shouldExist = this.distanceTraveled <= Bullet.MAX_TRAVEL_DISTANCE;
 
-//  var players = clients.values();
-//  for (var i = 0; i < players.length; ++i) {
-//    if (this.lineIntersects(lastPosition, this.position) &&
-//        this.source != players[i].id) {
-//      // @todo
-////      players[i].damage(1);
-////      if (players[i].isDead()) {
-////        players[i].respawn();
-////        var killingPlayer = clients.get(this.source);
-////        killingPlayer.kills++;
-////      }
-////      this.shouldExist = false;
-//      return;
-//    }
-//  }
+  var players = clients.values();
+  for (var i = 0; i < players.length; ++i) {
+    if (this.lineIntersects(lastPosition, this.position) &&
+        this.source != players[i].id) {
+      // @todo
+//      players[i].damage(1);
+//      if (players[i].isDead()) {
+//        players[i].respawn();
+//        var killingPlayer = clients.get(this.source);
+//        killingPlayer.kills++;
+//      }
+//      this.shouldExist = false;
+      return;
+    }
+  }
 };
 
 module.exports = Bullet;

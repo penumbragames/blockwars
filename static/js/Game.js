@@ -29,6 +29,7 @@ function Game(socket, container, scene, map, renderer, uiCanvas, self) {
 
   this.self = self;
   this.players = [];
+  this.projectiles = [];
 }
 
 Game.WIDTH = 800;
@@ -36,7 +37,6 @@ Game.WIDTH = 800;
 Game.HEIGHT = 600;
 
 Game.create = function(socket, parentElement, position, map) {
-  // @todo: integrate map sending
   return new Game(socket,
                   parentElement,
                   new THREE.Scene(),
@@ -64,11 +64,13 @@ Game.prototype.update = function() {
   });
 
   this.drawing.updatePlayers(this.players);
+  this.drawing.updateProjectiles(this.projectiles);
 };
 
-Game.prototype.receiveGameState = function(self, players) {
+Game.prototype.receiveGameState = function(self, players, projectiles) {
   this.self.updateFromServer(self.position);
   this.players = players;
+  this.projectiles = projectiles;
 };
 
 Game.prototype.render = function() {
