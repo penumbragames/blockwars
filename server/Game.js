@@ -38,8 +38,8 @@ function Game() {
 
 /**
  * Creates a new player with the given name and ID.
- * @param {string} The display name of the player.
  * @param {Object} The socket object of the player.
+ * @param {string} The display name of the player.
  */
 Game.prototype.addNewPlayer = function(socket, name) {
   this.clients.set(socket.id, {
@@ -59,7 +59,6 @@ Game.prototype.removePlayer = function(id) {
   }
   if (this.players.has(id)) {
     var player = this.players.get(id);
-    // todo: fixed hardcoded constants
     this.players.remove(id);
   }
 };
@@ -69,6 +68,8 @@ Game.prototype.removePlayer = function(id) {
  * input state sent by that player's client.
  * @param {string} id The socket ID of the player to update.
  * @param {Object} keyboardState The state of the player's keyboard.
+ * @param {boolean} isShooting The state of the player's left click. If it
+ *   is true, then the player is considered to be shooting.
  * @param {number} horizontalLookAngle The horizontal looking angle of the
  *   player in radians.
  * @param {number} verticalLookAngle The vertical looking angle of the player
@@ -78,6 +79,7 @@ Game.prototype.removePlayer = function(id) {
  */
 Game.prototype.updatePlayer = function(id,
                                        keyboardState,
+                                       isShooting,
                                        horizontalLookAngle,
                                        verticalLookAngle,
                                        timestamp) {
@@ -86,6 +88,9 @@ Game.prototype.updatePlayer = function(id,
   if (player) {
     player.updateOnInput(keyboardState, horizontalLookAngle,
                          verticalLookAngle);
+    if (isShooting) {
+      this.projectiles.push(player.getProjectileShot());
+    }
   }
   if (client) {
     client.latency = (new Date()).getTime() - timestamp;
@@ -107,18 +112,6 @@ Game.prototype.getPlayers = function() {
  */
 Game.prototype.getMap = function() {
   return this.map.getObjects();
-};
-
-/**
- * Given a socket ID, adds a projectile that was fired by the player
- * associated with that ID if and only if that player can fire.
- * @param {string} The socket ID of the player that fired a projectile.
- */
-Game.prototype.addProjectileShotBy = function(id) {
-  var player = this.players.get(id);
-  if (player && player.canShoot()) {
-    this.projectiles.push(player.getProjectileShot());
-  }
 };
 
 /**

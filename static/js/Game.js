@@ -57,9 +57,9 @@ Game.prototype.update = function() {
       right: Input.RIGHT,
       space: Input.SPACE
     },
+    isShooting: Input.LEFT_CLICK,
     horizontalLookAngle: this.self.horizontalLookAngle,
     verticalLookAngle: this.self.verticalLookAngle,
-    shooting: Input.LEFT_CLICK,
     timestamp: (new Date()).getTime()
   });
 

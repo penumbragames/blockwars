@@ -76,7 +76,8 @@ Entity.prototype.isCollidedWith = function(other) {
 
 /**
  * This method returns true if the line described by the two given endpoints
- * intersects this entity.
+ * intersects this entity. This function operates under the assumption that
+ * all entities have axis-aligned bounding boxes.
  * @param {number} p1 The first endpoint of the given line.
  * @param {number} p2 The second endpoint of the given line.
  */
@@ -148,7 +149,7 @@ Entity.prototype.lineIntersects = function(p1, p2) {
 /**
  * Updates what's known to the Entity, namely the position, velocity, and
  * acceleration based on the time that has passed between the current and last
- * update call.
+ * update call. Subclasses of entities call this to update their position.
  */
 Entity.prototype.update = function() {
   // Based on the amount of time that passed between the current update call

@@ -49,7 +49,7 @@ Player.inheritsFrom(Entity);
 Player.DEFAULT_SIZE = [0.5, 1, 0.5];
 Player.DEFAULT_MOVESPEED = 0.01;
 Player.DEFAULT_JUMPSPEED = 0.01;
-Player.DEFAULT_SHOT_COOLDOWN = 800;
+Player.DEFAULT_SHOT_COOLDOWN = 250;
 Player.MAX_HEALTH = 10;
 
 /**

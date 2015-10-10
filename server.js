@@ -50,12 +50,10 @@ io.on('connection', function(socket) {
   socket.on('client-intent', function(data) {
     game.updatePlayer(socket.id,
                       data.keyboardState,
+                      data.isShooting,
                       data.horizontalLookAngle,
                       data.verticalLookAngle,
                       data.timestamp);
-    if (data.shooting) {
-      game.addProjectileShotBy(socket.id);
-    }
   });
 
   socket.on('disconnect', function() {
