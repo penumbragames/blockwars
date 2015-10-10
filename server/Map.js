@@ -12,9 +12,26 @@ function Map() {
 
 Map.generate = function() {
   var map = new Map();
-  map.addBlock([9, 0, 10], [1, 1, 1], 0x0000FF);
-  map.addBlock([10, 0, 10], [1, 1, 2], 0x00FF00);
+  map.addBlock([2, 0, 2], [1, 1, 1], 0x0000FF);
+  map.addBlock([-2, 0, -2], [1, 1, 2], 0x00FF00);
   map.addBlock([0, -1, 0], [1000, 0.5, 1000], 0xABCDEF);
+   for (var i = 6; i < 150; i=i+5){
+     map.addBlock([i*0.7, 0, i], [1,0.5+(2*Math.random()),1], 0xFF00FF);
+     map.addBlock([-i, 0, -i*1.3], [1,0.5+(2*Math.random()),1], 0xFF00FF);
+     map.addBlock([i*2, 0, i], [1,0.5+(2*Math.random()),1], 0x0000FF);
+   }
+   for (var i = 6; i < 100; i=i+5){
+     map.addBlock([i-13, 0.01*i, -i], [1,0.5+1.5*Math.random(),1], 0xFF00FF);
+     map.addBlock([-i+13, 0.3*i, i], [1,0.5+1.5*Math.random(),1], 0xAB21CD);
+   }
+   for (var i = 6; i < 100; i=i+5){
+     map.addBlock([i-10, 0.2*i, -i], [1,0.5+1.5*Math.random(),1], 0x0FC123);
+     map.addBlock([-i+20, 0, i], [1,0.5+1.5*Math.random(),1], 0x52FCC1);
+   }
+   for (var i = 6; i < 100; i=i+5){
+     map.addBlock([i, 0.1*i, 15], [1,0.5+1.5*Math.random(),1], 0x0FC123);
+     map.addBlock([i, 0.15*i, 30], [1,0.5+1.5*Math.random(),1], 0x52FCC1);
+   }
   return map;
 };
 
