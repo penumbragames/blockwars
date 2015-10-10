@@ -40,7 +40,6 @@ Game.create = function(socket, parentElement, position, map) {
   var scene = new THREE.Scene();
   var renderer = new THREE.WebGLRenderer();
   var uiCanvas = document.createElement('canvas');
-  uiCanvas.setAttribute('style', 'border-radius: 50px;');
   uiCanvas.width = 800;
   uiCanvas.height = 600;
   var player = Player.create(position);
@@ -77,6 +76,4 @@ Game.prototype.render = function() {
   this.drawing.redrawPlayers(this.players);
   this.drawing.redrawProjectiles(this.projectiles);
   this.drawing.redrawUI(this.self.health);
-  console.log(this.self);
-  console.log = function() {};
 };

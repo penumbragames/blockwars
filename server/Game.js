@@ -88,7 +88,7 @@ Game.prototype.updatePlayer = function(id,
   if (player) {
     player.updateOnInput(keyboardState, horizontalLookAngle,
                          verticalLookAngle);
-    if (isShooting) {
+    if (isShooting && player.canShoot()) {
       this.projectiles.push(player.getProjectileShot());
     }
   }

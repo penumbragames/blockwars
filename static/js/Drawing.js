@@ -13,9 +13,7 @@ var limit = 1;
 function Drawing(scene, uiCanvas) {
   this.scene = scene;
   this.uiCanvas = uiCanvas;
-  console.log(this.uiCanvas);
   this.uiCanvasContext = this.uiCanvas.getContext('2d');
-  console.log(this.uiCanvasContext);
 
   this.map = [];
   this.players = [];
@@ -93,9 +91,10 @@ Drawing.prototype.redrawProjectiles = function(projectiles) {
 };
 
 Drawing.prototype.redrawUI = function(health) {
+  this.uiCanvasContext.clearRect(0, 0, 800, 600);
+
   this.uiCanvasContext.save();
 
-  if (limit == 1) {
   this.uiCanvasContext.font="20px Georgia";
   this.uiCanvasContext.fillStyle = 'white';
   this.uiCanvasContext.fillText("Health Points", 5, 560);
@@ -107,10 +106,8 @@ Drawing.prototype.redrawUI = function(health) {
   this.uiCanvasContext.moveTo(400, 250);
   this.uiCanvasContext.lineTo(400, 350);
   this.uiCanvasContext.stroke();
-  limit++;
-  }
 
   this.uiCanvasContext.fillStyle = 'red';
-  this.uiCanvasContext.fillRect(5, 570, 20*health, 20);
+  this.uiCanvasContext.fillRect(5, 570, 20 * health, 20);
   this.uiCanvasContext.restore();
 };

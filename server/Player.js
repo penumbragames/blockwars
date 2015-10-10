@@ -34,8 +34,7 @@ function Player(id, name, position, horizontalLookAngle, verticalLookAngle) {
 
   this.size = Player.DEFAULT_SIZE;
 
-  this.lastUpdateTime = (new Date()).getTime();
-  this.updateTimeDifference = 0;
+  this.isJumping = false;
   this.shotCooldown = Player.DEFAULT_SHOT_COOLDOWN;
   this.lastShotTime = 0;
   this.health = Player.MAX_HEALTH;
@@ -112,8 +111,9 @@ Player.prototype.updateOnInput = function(keyboardState, horizontalLookAngle,
   }
 
   // The player will jump if a space keystroke was received.
-  if (keyboardState.space) {
+  if (keyboardState.space && !this.isJumping) {
     this.velocity[1] = Player.DEFAULT_JUMPSPEED;
+    this.isJumping = true;
   }
 };
 
@@ -153,7 +153,8 @@ Player.prototype.update = function(mapObjects) {
       if (Util.almostEqual(
           Math.abs(this.position[1] - currentObject.position[1]),
           this.size[1] + currentObject.size[1]), 0.2) {
-          this.velocity[1] = Math.max(0, this.velocity[1]);
+        this.velocity[1] = Math.max(0, this.velocity[1]);
+        this.isJumping = false;
       }
     }
   }
