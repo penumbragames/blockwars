@@ -49,7 +49,7 @@ Player.inheritsFrom(Entity);
 Player.DEFAULT_SIZE = [0.5, 1, 0.5];
 Player.DEFAULT_MOVESPEED = 0.01;
 Player.DEFAULT_JUMPSPEED = 0.01;
-Player.DEFAULT_SHOT_COOLDOWN = 250;
+Player.DEFAULT_SHOT_COOLDOWN = 750;
 Player.MAX_HEALTH = 10;
 
 /**
@@ -191,6 +191,15 @@ Player.prototype.getProjectileShot = function() {
  */
 Player.prototype.isDead = function() {
   return this.health <= 0;
+};
+
+/**
+ * Takes care of respawning this player. If this is called, it is assumed
+ * that death checks have been performed and the player actually is dead.
+ */
+Player.prototype.respawn = function() {
+  this.position = [0, 0, 0];
+  this.health = Player.MAX_HEALTH;
 };
 
 /**

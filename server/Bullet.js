@@ -80,11 +80,11 @@ Bullet.prototype.update = function(clients, mapObjects) {
     if (this.source != players[i].id &&
         players[i].lineIntersects(lastPosition, this.position)) {
       players[i].damage(1);
-//      if (players[i].isDead()) {
-//        players[i].respawn();
-//        var killingPlayer = clients.get(this.source);
-//        killingPlayer.kills++;
-//      }
+      if (players[i].isDead()) {
+        players[i].respawn();
+        var killingPlayer = clients.get(this.source);
+        killingPlayer.kills++;
+      }
       this.shouldExist = false;
       return;
     }
