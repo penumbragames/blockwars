@@ -7,10 +7,6 @@
 
 try {
   var Constants = require('./Constants');
-  var add = require('vectors/add')(3);
-  var dot = require('vectors/dot')(3);
-  var cross = require('vectors/cross')(3);
-  var sub = require('vectors/sub')(3);
 } catch (err) {}
 
 /**
@@ -71,32 +67,6 @@ Util.getEuclideanDistance2 = function(x1, y1, x2, y2) {
  */
 Util.getEuclideanDistance = function(x1, y1, x2, y2) {
   return Math.sqrt(Util.getEuclideanDistance2(x1, x2, y1, y2));
-};
-
-/**
- * Given a line passing through the points a and b (3-tuples), this function
- * returns the Plucker coordinate form of the line.
- */
-Util.getPluckerCoordinates = function(a, b) {
-  return [
-    a[0] * b[1] - b[0] * a[1],
-    a[0] * b[2] - b[0] * a[2],
-    a[0] - b[0],
-    a[1] * b[2] - b[1] * a[2],
-    a[2] - b[2],
-    b[1] - a[1]
-  ];
-};
-
-/**
- *
- */
-Util.sideRelation = function(o, rp, a, b) {
-  var d = [rp[0] - o[0],
-           rp[1] - o[1],
-           rp[2] - o[2]];
-  var n = cross(sub(a, o), sub(b, o));
-  return dot(d, n);
 };
 
 /**
