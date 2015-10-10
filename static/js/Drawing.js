@@ -8,8 +8,12 @@
  * Constructor for the Drawing object. Takes a scene which it should modify.
  * @param {THREE.Scene} scene
  */
-function Drawing(scene) {
+function Drawing(scene, uiCanvas) {
   this.scene = scene;
+  this.uiCanvas = uiCanvas;
+  console.log(this.uiCanvas);
+  this.uiCanvasContext = this.uiCanvas.getContext('2d');
+  console.log(this.uiCanvasContext);
 
   this.map = [];
   this.players = [];
@@ -41,7 +45,7 @@ Drawing.prototype.setMap = function(map) {
   }
 }
 
-Drawing.prototype.updatePlayers = function(players) {
+Drawing.prototype.redrawPlayers = function(players) {
   for (var i = 0; i < this.players.length; ++i) {
     this.scene.remove(this.players[i]);
   }
@@ -62,7 +66,7 @@ Drawing.prototype.updatePlayers = function(players) {
   }
 };
 
-Drawing.prototype.updateProjectiles = function(projectiles) {
+Drawing.prototype.redrawProjectiles = function(projectiles) {
   for (var i = 0; i < this.projectiles.length; ++i) {
     this.scene.remove(this.projectiles[i]);
   }
@@ -84,4 +88,11 @@ Drawing.prototype.updateProjectiles = function(projectiles) {
     this.scene.add(projectileMesh);
     this.projectiles.push(projectileMesh);
   }
+};
+
+Drawing.prototype.redrawUI = function() {
+  this.uiCanvasContext.save();
+  this.uiCanvasContext.fillStyle = 'red';
+  this.uiCanvasContext.fillRect(20, 20, 60, 60);
+  this.uiCanvasContext.restore();
 };

@@ -18,7 +18,7 @@ function Game(socket, container, scene, map, renderer, uiCanvas, self) {
    * on the renderer object to draw the 3D scene.
    */
   this.scene = scene;
-  this.drawing = new Drawing(scene);
+  this.drawing = new Drawing(scene, uiCanvas);
   this.drawing.setMap(map);
 
   this.renderer = renderer;
@@ -26,6 +26,7 @@ function Game(socket, container, scene, map, renderer, uiCanvas, self) {
   // @todo prepend renderer to container so that uiCanvas can be overlaid.
   this.container.appendChild(this.renderer.domElement);
   this.uiCanvas = uiCanvas;
+  this.container.appendChild(this.uiCanvas);
 
   this.self = self;
   this.players = [];
@@ -37,13 +38,13 @@ Game.WIDTH = 800;
 Game.HEIGHT = 600;
 
 Game.create = function(socket, parentElement, position, map) {
-  return new Game(socket,
-                  parentElement,
-                  new THREE.Scene(),
-                  map,
-                  new THREE.WebGLRenderer(),
-                  null,
-                  Player.create(position));
+  var scene = new THREE.Scene();
+  var renderer = new THREE.WebGLRenderer();
+  var uiCanvas = document.createElement('canvas');
+  uiCanvas.setAttribute('style', 'border-radius: 50px;');
+  var player = Player.create(position);
+  return new Game(socket, parentElement, scene, map,
+                  renderer, uiCanvas, player);
 };
 
 Game.prototype.update = function() {
@@ -62,9 +63,6 @@ Game.prototype.update = function() {
     verticalLookAngle: this.self.verticalLookAngle,
     timestamp: (new Date()).getTime()
   });
-
-  this.drawing.updatePlayers(this.players);
-  this.drawing.updateProjectiles(this.projectiles);
 };
 
 Game.prototype.receiveGameState = function(self, players, projectiles) {
@@ -75,4 +73,7 @@ Game.prototype.receiveGameState = function(self, players, projectiles) {
 
 Game.prototype.render = function() {
   this.renderer.render(this.scene, this.self.camera);
+  this.drawing.redrawPlayers(this.players);
+  this.drawing.redrawProjectiles(this.projectiles);
+  this.drawing.redrawUI();
 };
