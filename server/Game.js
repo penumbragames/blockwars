@@ -108,7 +108,6 @@ Game.prototype.addProjectileShotBy = function(id) {
   var player = this.players.get(id);
   if (player && player.canShoot()) {
     this.projectiles.push(player.getProjectileShot());
-    console.log(this.projectiles);
   }
 };
 
@@ -146,9 +145,6 @@ Game.prototype.update = function() {
  * filtering them appropriately.
  */
 Game.prototype.sendState = function() {
-
-  console.log(this.projectiles);
-
   var ids = this.clients.keys();
   for (var i = 0; i < ids.length; ++i) {
     var currentPlayer = this.players.get(ids[i]);

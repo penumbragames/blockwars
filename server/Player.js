@@ -4,6 +4,8 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
+var shallowCopy = require('shallow-copy');
+
 var Bullet = require('./Bullet');
 var Entity = require('./Entity');
 
@@ -176,8 +178,10 @@ Player.prototype.canShoot = function() {
  */
 Player.prototype.getProjectileShot = function() {
   this.lastShotTime = (new Date()).getTime();
-  return Bullet.create(this.id, this.position, this.horizontalLookAngle,
-                       this.verticalLookAngle);
+  return Bullet.create(this.id,
+                       shallowCopy(this.position),
+                       shallowCopy(this.horizontalLookAngle),
+                       shallowCopy(this.verticalLookAngle));
 };
 
 /**

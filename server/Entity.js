@@ -27,6 +27,7 @@ function Entity(position, velocity, acceleration, size) {
   this.size = size || [0, 0, 0];
 
   this.lastUpdateTime = 0;
+  this.updateTimeDifference = 0;
 }
 
 /**
@@ -153,10 +154,14 @@ Entity.prototype.update = function() {
   // Based on the amount of time that passed between the current update call
   // and the last update call, the entity will move a certain amount.
   var currentTime = (new Date()).getTime();
-  var timeDifference = currentTime - this.lastUpdateTime;
+  if (this.lastUpdateTime == 0) {
+    this.updateTimeDifference = 0;
+  } else {
+    this.updateTimeDifference = currentTime - this.lastUpdateTime;
+  }
   for (var i = 0; i < this.position.length; ++i) {
-    this.position[i] += this.velocity[i] * timeDifference;
-    this.velocity[i] += this.acceleration[i] * timeDifference;
+    this.position[i] += this.velocity[i] * this.updateTimeDifference;
+    this.velocity[i] += this.acceleration[i] * this.updateTimeDifference;
   }
   this.lastUpdateTime = currentTime;
 };
