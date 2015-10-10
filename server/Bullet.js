@@ -38,7 +38,7 @@ Bullet.inheritsFrom(Entity);
  * MAX_TRAVEL_DISTANCE is in distance units.
  * SIZE is a 3-tuple of distance units.
  */
-Bullet.VELOCITY_MAGNITUDE = 0.05;
+Bullet.VELOCITY_MAGNITUDE = 0.2;
 Bullet.DEFAULT_DAMAGE = 1;
 Bullet.MAX_TRAVEL_DISTANCE = 100;
 Bullet.SIZE = [0.1, 0.1, 0.1];

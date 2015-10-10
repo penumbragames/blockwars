@@ -77,6 +77,4 @@ Game.prototype.render = function() {
   this.drawing.redrawPlayers(this.players);
   this.drawing.redrawProjectiles(this.projectiles);
   this.drawing.redrawUI(this.self.health);
-  console.log(this.self);
-  console.log = function() {};
 };
