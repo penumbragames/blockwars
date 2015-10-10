@@ -55,7 +55,7 @@ Drawing.prototype.redrawPlayers = function(players) {
                                                players[i].size[1] * 2,
                                                players[i].size[2] * 2);
     var playerMaterial = new THREE.MeshBasicMaterial({
-      color: 0xFBABFC
+      color: 0x00FFFF
     });
     var playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
     playerMesh.position.x = players[i].position[0];
@@ -78,7 +78,7 @@ Drawing.prototype.redrawProjectiles = function(projectiles) {
         projectiles[i].size[2] * 2
     );
     var projectileMaterial = new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF
+      color: 0xCCCCCC
     });
     var projectileMesh = new THREE.Mesh(projectileGeometry,
                                         projectileMaterial);

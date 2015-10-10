@@ -199,7 +199,9 @@ Player.prototype.isDead = function() {
  * that death checks have been performed and the player actually is dead.
  */
 Player.prototype.respawn = function() {
-  this.position = [0, 0, 0];
+  this.position = [Util.randRangeInt(-25, 25),
+                   Util.randRangeInt(-25, 25),
+                   Util.randRangeInt(-25, 25)];
   this.health = Player.MAX_HEALTH;
 };
 
