@@ -4,7 +4,8 @@
   "description": "A sandbox for testing network lag code.",
   "main": "server.js",
   "scripts": {
-    "test": "node server"
+    "test": "node server",
+    "postinstall": "bower install; gulp"
   },
   "repository": {
     "type": "git",
