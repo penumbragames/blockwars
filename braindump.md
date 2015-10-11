@@ -26,3 +26,14 @@ side is that objects are constantly being added and removed from the
 THREE.Scene. To solve the problem of the bullet skipping over a player entity,
 we will calculate if the line connecting its position before and after update
 intersects any entity's axis-aligned bounding box.
+
+# 10/11/2015
+
+Upon further reflection, updating bullets in discrete steps is very
+computationally expensive. However, users can easily see the bullets they fire.
+After implementing muzzle flash and recoil, we should implement an a priori
+system where a shot happens instantly when a player clicks. After adding the
+slab test line-box intersection algorithm to the Entity class, this should be
+trivial. This removes the need for a Bullet class since this computation can
+happen inside the Player class. Bullet spread should be easy to implement
+on top of this.
