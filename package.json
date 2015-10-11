@@ -1,7 +1,7 @@
 {
-  "name": "node-game",
+  "name": "blockwars",
   "version": "1.0.0",
-  "description": "A sandbox for testing network lag code.",
+  "description": "This is a multiplayer first person shooter browser game.",
   "main": "server.js",
   "scripts": {
     "test": "node server",
@@ -31,7 +31,6 @@
     "morgan": "^1.6.1",
     "shallow-copy": "0.0.1",
     "socket.io": "^1.3.6",
-    "swig": "^1.4.2",
-    "vectors": "^0.1.0"
+    "swig": "^1.4.2"
   }
 }

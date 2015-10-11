@@ -1,4 +1,4 @@
-# Node-Game
+# Block Wars
 
 This is a first person shooter made with NodeJS, Socket.IO, and THREE.js.
 

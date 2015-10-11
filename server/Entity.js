@@ -5,8 +5,6 @@
  * @author Alvin Lin (alvin.lin@stuypulse.com)
  */
 
-var add = require('vectors/add')(3);
-
 var Util = require('../shared/Util');
 
 /**

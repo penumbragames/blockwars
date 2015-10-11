@@ -12,6 +12,7 @@ var http = require('http');
 var morgan = require('morgan');
 var socketIO = require('socket.io');
 var swig = require('swig');
+
 var Game = require('./server/Game');
 
 var app = express();

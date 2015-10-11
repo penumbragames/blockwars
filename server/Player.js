@@ -177,6 +177,9 @@ Player.prototype.canShoot = function() {
  * Returns a projectile shot based on the player's current position and angle.
  * This function assumes that all cooldown checks have passed and the player
  * can shoot.
+ * @todo After implementing recoil and muzzle flash, we should use a priori
+ *   calculation that happens instantaneously when the player shoots instead
+ *   of having a bullet that updates in discrete quantities.
  */
 Player.prototype.getProjectileShot = function() {
   this.lastShotTime = (new Date()).getTime();
