@@ -47,4 +47,7 @@ This is a first person shooter made with NodeJS, Socket.IO, and THREE.js.
   - Please use our convention of **2 space tabs that are space characters and
   not tab characters**. Document any code that you write.
 
-&copy; 2015 Alvin Lin
+# Creators:
+  - Alvin Lin (omgimanerd)
+
+&copy; Copyright 2015 Penumbra Games
