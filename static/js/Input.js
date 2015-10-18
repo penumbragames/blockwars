@@ -120,4 +120,5 @@ Input.applyEventHandlers = function() {
 
 Input.lockPointer = function() {
   document.getElementById('game-container').requestPointerLock();
+  Input.MOUSE_LOCKED = true;
 };

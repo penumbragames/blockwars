@@ -48,21 +48,30 @@ Game.create = function(socket, parentElement, position, map) {
 };
 
 Game.prototype.update = function() {
-  this.self.updateFromClient();
 
-  this.socket.emit('client-intent', {
-    keyboardState: {
-      up: Input.UP,
-      down: Input.DOWN,
-      left: Input.LEFT,
-      right: Input.RIGHT,
-      space: Input.SPACE
-    },
-    isShooting: Input.LEFT_CLICK,
-    horizontalLookAngle: this.self.horizontalLookAngle,
-    verticalLookAngle: this.self.verticalLookAngle,
-    timestamp: (new Date()).getTime()
-  });
+  // Having the mouse locked will allow play. No packets should be sent
+  // if the user's mouse is not locked. The game should only update if
+  // the user's mouse is locked.
+  if (Input.MOUSE_LOCKED) {
+    document.getElementById('game-pause-screen').style.display = 'none';
+
+    this.self.updateFromClient();
+    this.socket.emit('client-intent', {
+      keyboardState: {
+        up: Input.UP,
+        down: Input.DOWN,
+        left: Input.LEFT,
+        right: Input.RIGHT,
+        space: Input.SPACE
+      },
+      isShooting: Input.LEFT_CLICK,
+      horizontalLookAngle: this.self.horizontalLookAngle,
+      verticalLookAngle: this.self.verticalLookAngle,
+      timestamp: (new Date()).getTime()
+    });
+  } else {
+    document.getElementById('game-pause-screen').style.display = 'block';
+  }
 };
 
 Game.prototype.receiveGameState = function(self, players, projectiles) {

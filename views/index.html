@@ -15,8 +15,21 @@ Author: Alvin Lin (alvin.lin@stuypulse.com)
     </script>
   </head>
   <body>
-    <button class='start'>lock mouse</button>
+    <div id='name-prompt-overlay'>
+      <div id='name-prompt-container'>
+        <input type='text' id='name-prompt-entry'
+               placeholder='Nickname' />
+        <button type='button' id='name-prompt-submit'>
+          Play
+        </button>
+      </div>
+    </div>
     <div id='game-container'>
+      <div id='game-pause-screen'>
+        <button id='game-resume'>
+          Resume
+        </button>
+      </div>
     </div>
   </body>
   <script src='/bower_components/three.js/build/three.min.js'>
