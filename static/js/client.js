@@ -17,11 +17,15 @@ $(document).ready(function() {
   function send_name() {
     Input.lockPointer();
     var name = $('#name-prompt-entry').val();
-    $('#name-prompt-container').fadeOut(500);
+    if (name && name.length < 20 && name != '') {
+      $('#name-prompt-container').fadeOut(500);
 
-    socket.emit('new-player', {
-      name: name
-    });
+      socket.emit('new-player', {
+        name: name
+      });
+    } else {
+      window.alert('Your name cannot be blank or over 20 characters!');
+    }
     return false;
   }
 
