@@ -20,6 +20,7 @@ var Util = require('../shared/Util');
  * @param {string} name The display name of the player.
  * @param {string} id The socket ID of the client associated with this
  *   player.
+ * @todo Implement cooldown on the jumping to prevent wall-running.
  */
 function Player(id, name, position, horizontalLookAngle, verticalLookAngle) {
   this.id = id;

@@ -12,26 +12,21 @@ $(document).ready(function() {
 
   $('#game-resume').click(function() {
     Input.lockPointer();
-    console.log('resume');
   });
 
-  $('#name-prompt-entry').submit(function() {
+  function send_name() {
     Input.lockPointer();
     var name = $('#name-prompt-entry').val();
+    $('#name-prompt-container').fadeOut(500);
 
     socket.emit('new-player', {
       name: name
     });
-  });
+    return false;
+  }
 
-  $('#name-prompt-submit').click(function() {
-    Input.lockPointer();
-    var name = $('#name-prompt-entry').val();
-
-    socket.emit('new-player', {
-      name: name
-    });
-  });
+  $('#name-prompt-form').submit(send_name);
+  $('#name-prompt-submit').click(send_name);
 
   socket.on('initialize-game', function(data) {
     $('#name-prompt-overlay').fadeOut(1000);

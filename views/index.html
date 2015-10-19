@@ -17,18 +17,27 @@ Author: Alvin Lin (alvin.lin@stuypulse.com)
   <body>
     <div id='name-prompt-overlay'>
       <div id='name-prompt-container'>
-        <input type='text' id='name-prompt-entry'
-               placeholder='Nickname' />
-        <button type='button' id='name-prompt-submit'>
-          Play
-        </button>
+        <form id='name-prompt-form'>
+          <input type='text' id='name-prompt-entry'
+                 placeholder='Nickname' autocomplete='off' />
+          <input type='submit' id='name-prompt-submit'
+                 value='Play'>
+        </form>
       </div>
     </div>
-    <div id='game-container'>
-      <div id='game-pause-screen'>
-        <button id='game-resume'>
-          Resume
-        </button>
+    <div class='container'>
+      <h1>
+        Block Wars
+      </h1>
+      <div id='game-container'>
+        <div id='game-pause-screen'>
+          <h1>
+            Paused
+          </h1>
+          <button id='game-resume'>
+            Resume
+          </button>
+        </div>
       </div>
     </div>
   </body>
