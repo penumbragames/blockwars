@@ -1,6 +1,6 @@
 # 10/7/2015
 
-Ugh, so we're using a posteriori collision detection, where the internal game
+We're using a posteriori collision detection, where the internal game
 state is updated in discrete steps every time the game loop updates. Every
 tick, the positions of the objects are updated by their velocities, etc.
 We use the AABB method to detect when the objects have collided during each
