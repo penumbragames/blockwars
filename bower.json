@@ -2,7 +2,7 @@
   "name": "blockwars",
   "version": "1.0.0",
   "authors": [
-    "Alvin Lin <alvin.lin@stuypulse.com>"
+    "Alvin Lin <alvin.lin.dev@gmail.com>"
   ],
   "description": "A sandbox for testing network lag code",
   "main": "server.js",

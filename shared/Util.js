@@ -2,7 +2,7 @@
  * This is a utility class containing utility methods used on the client
  * and the server. The methods in this class are accessible by both the
  * client and server side modules.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 try {

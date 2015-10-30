@@ -1,7 +1,7 @@
 /**
  * This class encapsulates the client player's positional data on the client
  * side and handles the movement of the ThreeJS Camera.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 /**

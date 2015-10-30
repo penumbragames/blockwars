@@ -1,7 +1,7 @@
 /**
  * This class stores global constants for this project, and is available to the
  * client as well as the server modules.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 /**

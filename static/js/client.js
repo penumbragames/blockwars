@@ -1,6 +1,6 @@
 /**
  * Client side script to initialize game canvases and objects.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 var socket = io();

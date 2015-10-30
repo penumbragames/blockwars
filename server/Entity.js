@@ -2,7 +2,7 @@
  * Wrapper class for all entities on the server. This class operates on the
  * assumption that all entities have hitboxes that are axis-aligned bounding
  * boxes.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 var Util = require('../shared/Util');

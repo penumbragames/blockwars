@@ -1,7 +1,7 @@
 /**
  * This class encapsulates the state of a bullet on the server and handles its
  * updating as well as its collision.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 var shallowCopy = require('shallow-copy');

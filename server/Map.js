@@ -1,7 +1,7 @@
 /**
  * This class stores maps as objects to be serialized and sent to the client.
  * This should be improved later and factored out into a utility instead.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 var Entity = require('./Entity');

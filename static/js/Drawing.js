@@ -1,6 +1,6 @@
 /**
  * This class handles the rendering of all 3D objects on the scene.
- * @author Alvin Lin (alvin.lin@stuypulse.com)
+ * @author Alvin Lin (alvin.lin.dev@gmail.com)
  */
 
 var limit = 1;
