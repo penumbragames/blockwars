@@ -16,7 +16,6 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "three.js": "threejs#*",
-    "closure-compiler": "http://dl.google.com/closure-compiler/compiler-latest.zip"
+    "three.js": "threejs#*"
   }
 }
